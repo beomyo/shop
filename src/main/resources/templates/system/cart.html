@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html class="no-js" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <base href="/">
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <title>购物车</title>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="shortcut icon" type="image/x-icon" href="assets/images/favicon.svg" />
+
+    <!-- ========================= CSS here ========================= -->
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="assets/css/LineIcons.3.0.css" />
+    <link rel="stylesheet" href="assets/css/tiny-slider.css" />
+    <link rel="stylesheet" href="assets/css/glightbox.min.css" />
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <style>
+        /* 美化整体布局 */
+        .shopping-cart {
+            padding: 40px 0;
+        }
+        /* 隐藏输入框右侧的调节按钮 */
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="number"]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        .cart-list-head {
+            background: #f8f9fa;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            padding: 15px 0;
+        }
+
+        .cart-list-title {
+            font-weight: 600;
+            border-bottom: 2px solid #e9ecef;
+        }
+
+        .cart-list-title .row,
+        .cart-single-list .row {
+            align-items: center;
+            padding: 15px 0;
+        }
+
+        /* 商品图片和名称对齐 */
+        .product-info {
+            display: flex;
+            align-items: center;
+        }
+
+        .product-image {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 4px;
+            margin-right: 15px;
+            border: 1px solid #ddd;
+        }
+
+        .product-name a {
+            color: #333;
+            font-size: 16px;
+            text-decoration: none;
+        }
+
+        .product-name a:hover {
+            color: #007bff;
+        }
+
+        .product-des {
+            color: #666;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        /* 数量输入框美化 */
+        .count-input .input-group {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .count-input .btn {
+            padding: 6px 12px;
+            border: 1px solid #ddd;
+            background-color: #fff;
+            color: #333;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .count-input .btn:hover {
+            background-color: #f1f1f1;
+            border-color: #ccc;
+        }
+
+        .count-input .form-control {
+            width: 60px;
+            text-align: center;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            padding: 6px;
+            font-size: 14px;
+            margin: 0 5px;
+        }
+
+        /* 单价和总价对齐 */
+        .price-text,
+        .item-total-price {
+            font-size: 16px;
+            color: #e74c3c;
+            font-weight: 500;
+        }
+
+        /* 删除按钮 */
+        .remove-item {
+            color: #dc3545;
+            font-size: 18px;
+            transition: color 0.3s;
+        }
+
+        .remove-item:hover {
+            color: #c82333;
+        }
+
+        /* 全选按钮 */
+        #select-all {
+            margin-right: 8px;
+        }
+
+        /* 总计区域美化 */
+        .total-amount {
+            background: #fff;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 30px;
+        }
+
+        .total-amount ul li {
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        .total-amount ul li span {
+            float: right;
+            color: #e74c3c;
+            font-weight: 600;
+        }
+
+        .total-amount .button .btn {
+            padding: 10px 25px;
+            margin-right: 10px;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        .total-amount .button .btn-alt {
+            background: #6c757d;
+        }
+    </style>
+</head>
+
+<body>
+<!-- Header remains unchanged -->
+<header class="header navbar-area">
+    <div class="topbar">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-12 col-md-4 col-12">
+<!--                    <div class="top-end">-->
+<!--                        <ul class="user-login" id="loginStatus">-->
+<!--                            <li><a href="shopping/login">登录</a></li>-->
+<!--                            <li><a href="shopping/register">注册</a></li>-->
+<!--                        </ul>-->
+<!--                    </div>-->
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="header-middle">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-3 col-md-3 col-7">
+                    <a class="navbar-brand" href="shopping/index">
+                        <img src="assets/images/logo/logo.svg" alt="Logo">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Start Breadcrumbs -->
+<div class="breadcrumbs">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6 col-md-6 col-12">
+                <div class="breadcrumbs-content">
+                    <h1 class="page-title" >购物车</h1>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-12">
+                <ul class="breadcrumb-nav">
+                    <li><a href="shopping/index"><i class="lni lni-home"></i> 首页</a></li>
+                    <li><a href="shopping/index">商城</a></li>
+                    <li>购物车</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Shopping Cart Section -->
+<div class="shopping-cart section">
+    <div class="container">
+        <div class="cart-list-head">
+            <div class="cart-list-title">
+                <div class="row">
+                    <div class="col-lg-1 col-md-1 col-12">
+                        <input type="checkbox" id="select-all"> 全选
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-12">
+                        <p>商品信息</p>
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-12">
+                        <p>数量</p>
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-12">
+                        <p>单价</p>
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-12">
+                        <p>总价</p>
+                    </div>
+                    <div class="col-lg-1 col-md-1 col-12">
+                        <p>操作</p>
+                    </div>
+                </div>
+            </div>
+            <div id="cart-items-container"></div>
+        </div>
+
+        <!-- Total Amount -->
+        <div class="total-amount">
+            <div class="row">
+                <div class="col-lg-4 col-md-6 col-12 offset-lg-8">
+                    <div class="right">
+                        <ul>
+                            <li>商品小计<span id="subtotal">0.00元</span></li>
+                            <li>运费<span>免费</span></li>
+                            <li class="last">应付金额<span id="total">0.00元</span></li>
+                        </ul>
+                        <div class="button">
+                            <a href="shopping/checkout" class="btn">结算</a>
+                            <a href="shopping/grids" class="btn btn-alt">继续购物</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<a href="#" class="scroll-top">
+    <i class="lni lni-chevron-up"></i>
+</a>
+
+<!-- ========================= JS here ========================= -->
+<script src="layui/layui.js"></script>
+<script src="assets/js/bootstrap.min.js"></script>
+<script src="assets/js/tiny-slider.js"></script>
+<script src="assets/js/glightbox.min.js"></script>
+<script src="assets/js/main.js"></script>
+
+<!-- Cart Item Template -->
+<script type="text/html" id="cartItemTemplate">
+    {{#  layui.each(d.productList, function(index, product){ }}
+    <div class="cart-single-list" data-productid="{{ product.id }}">
+        <input type="hidden" class="product-id" value="{{ product.id }}">
+        <div class="row align-items-center">
+            <div class="col-lg-1 col-md-1 col-12">
+                <input type="checkbox" class="select-item" data-productid="{{ product.id }}">
+            </div>
+            <div class="col-lg-4 col-md-4 col-12">
+                <div class="product-info">
+                    <img src="{{ product.defaultimg }}" alt="{{ product.name }}" class="product-image">
+                    <div>
+                        <h5 class="product-name"><a href="shopping/details?id={{ product.id }}">{{ product.name }}</a></h5>
+                        <p class="product-des">
+                            <span><em>类型：</em> {{ product.info }}</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-2 col-12">
+                <div class="count-input">
+                    <div class="input-group">
+                        <button class="btn btn-decrease" type="button">-</button>
+                        <input type="number" class="form-control quantity-input" value="{{ product.count }}"
+                               min="1" max="99" data-price="{{ product.price }}">
+                        <button class="btn btn-increase" type="button">+</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-2 col-12">
+                <p class="price-text">{{ product.price.toFixed(2) }}元</p>
+            </div>
+            <div class="col-lg-2 col-md-2 col-12">
+                <p class="item-total-price">{{ (product.price * product.count).toFixed(2) }}元</p>
+            </div>
+            <div class="col-lg-1 col-md-1 col-12">
+                <a class="remove-item" href="javascript:void(0)" data-productid="{{ product.id }}">
+                    <i class="lni lni-close"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+    {{#  }); }}
+</script>
+
+<!-- JavaScript Logic -->
+<script>
+    layui.use(['jquery', 'laytpl', 'layer'], function () {
+        var $ = layui.jquery;
+        var laytpl = layui.laytpl;
+        var layer = layui.layer;
+
+        loadCartData();
+
+        function loadCartData() {
+            $.ajax({
+                url: 'cart/getcartproductlist',
+                method: 'GET',
+                dataType: 'json',
+                success: function (response) {
+                    var getTpl = $('#cartItemTemplate').html();
+                    laytpl(getTpl).render(response, function (html) {
+                        $('#cart-items-container').html(html);
+                    });
+                    selectAllItems(true);
+                    updateTotalAmount(calculateSelectedTotal());
+                    bindEvents();
+                },
+                error: function (xhr) {
+                    $('#cart-items-container').html('<p>加载购物车失败，请稍后重试。</p>');
+                }
+            });
+        }
+
+        function calculateSelectedTotal() {
+            var total = 0;
+            $('.cart-single-list').each(function () {
+                if ($(this).find('.select-item').is(':checked')) {
+                    total += parseFloat($(this).find('.item-total-price').text().replace('元', ''));
+                }
+            });
+            return total;
+        }
+
+        function updateTotalAmount(total) {
+            $('#subtotal').text(total.toFixed(2) + '元');
+            $('#total').text(total.toFixed(2) + '元');
+        }
+
+        function bindEvents() {
+            bindQuantityEvents();
+            bindRemoveEvents();
+            bindCheckboxEvents();
+            bindSelectAllEvent();
+        }
+
+        function selectAllItems(isSelected) {
+            $('.select-item').each(function () {
+                var $checkbox = $(this);
+                var productId = $checkbox.data('productid');
+                var flag = isSelected ? 1 : 0;
+                if ($checkbox.is(':checked') !== isSelected) {
+                    $checkbox.prop('checked', isSelected);
+                    updateSelection(productId, flag);
+                }
+            });
+            $('#select-all').prop('checked', isSelected);
+        }
+
+        function bindSelectAllEvent() {
+            $('#select-all').on('change', function () {
+                selectAllItems($(this).is(':checked'));
+                updateTotalAmount(calculateSelectedTotal());
+            });
+        }
+
+        function bindCheckboxEvents() {
+            $('.select-item').on('change', function () {
+                var productId = $(this).data('productid');
+                var flag = $(this).is(':checked') ? 1 : 0;
+                updateSelection(productId, flag);
+            });
+        }
+
+        function updateSelection(productId, flag) {
+            $.ajax({
+                url: 'cart/selected',
+                method: 'GET',
+                data: { productid: productId, flag: flag },
+                success: function () {
+                    updateTotalAmount(calculateSelectedTotal());
+                    updateSelectAllState();
+                },
+                error: function () {
+                    layer.msg('操作失败，请稍后重试', { icon: 2 });
+                    loadCartData();
+                }
+            });
+        }
+
+        function updateSelectAllState() {
+            var allChecked = $('.select-item').length === $('.select-item:checked').length;
+            $('#select-all').prop('checked', allChecked);
+        }
+
+        function bindQuantityEvents() {
+            $('.quantity-input').each(function () {
+                var $input = $(this);
+                var $btnDecrease = $input.prev('.btn-decrease');
+                var $btnIncrease = $input.next('.btn-increase');
+                var $totalPrice = $input.closest('.row').find('.item-total-price');
+                var price = parseFloat($input.data('price'));
+                var productId = $input.closest('.cart-single-list').find('.product-id').val();
+
+                $input.data('original-count', parseInt($input.val()));
+
+                // Decrease button
+                $btnDecrease.on('click', function () {
+                    var value = parseInt($input.val());
+                    if (value > 1) {
+                        updateQuantity(productId, value - 1, $input, price, $totalPrice);
+                    }
+                });
+
+                // Increase button
+                $btnIncrease.on('click', function () {
+                    var value = parseInt($input.val());
+                    if (value < 99) {
+                        updateQuantity(productId, value + 1, $input, price, $totalPrice);
+                    }
+                });
+
+                // Manual input
+                $input.on('change', function () {
+                    var value = parseInt($input.val()) || 1;
+                    value = Math.max(1, Math.min(99, value)); // Restrict between 1 and 99
+                    $input.val(value);
+                    updateQuantity(productId, value, $input, price, $totalPrice);
+                });
+            });
+        }
+
+        function updateQuantity(productId, newQuantity, $input, price, $totalPrice) {
+            $.ajax({
+                url: 'cart/updateQuantity',
+                method: 'GET',
+                data: { productid: productId, quantity: newQuantity },
+                success: function (response) {
+                    if (response > 0) {
+                        $input.data('original-count', newQuantity);
+                        $input.val(newQuantity);
+                        $totalPrice.text((price * newQuantity).toFixed(2) + '元');
+                        updateTotalAmount(calculateSelectedTotal());
+                    } else {
+                        layer.msg('更新数量失败', { icon: 2 });
+                        $input.val($input.data('original-count'));
+                    }
+                },
+                error: function () {
+                    layer.msg('更新数量失败', { icon: 2 });
+                    $input.val($input.data('original-count'));
+                }
+            });
+        }
+
+        function bindRemoveEvents() {
+            $('.remove-item').on('click', function () {
+                var productId = $(this).data('productid');
+                var $item = $(this).closest('.cart-single-list');
+                layer.confirm('确定删除该商品吗？', {
+                    btn: ['确定', '取消']
+                }, function () {
+                    $.ajax({
+                        url: 'cart/delete',
+                        method: 'GET',
+                        data: { productid: productId },
+                        success: function () {
+                            $item.remove();
+                            updateTotalAmount(calculateSelectedTotal());
+                            updateSelectAllState();
+                            layer.msg('删除成功', { icon: 1 });
+                            if ($('#cart-items-container').children().length === 0) {
+                                $('#cart-items-container').html('<p>购物车为空</p>');
+                            }
+                        },
+                        error: function () {
+                            layer.msg('删除失败', { icon: 2 });
+                        }
+                    });
+                });
+            });
+        }
+    });
+</script>
+</body>
+</html>

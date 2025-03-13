@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>管理员面板</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="/layui/css/layui.css">
+    <style>
+        /* 优化整体布局 */
+        body, html {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        .layui-layout-admin .layui-header {
+            background-color: #393D49;
+            height: 60px;
+            line-height: 60px;
+        }
+        .layui-layout-admin .layui-side {
+            top: 60px; /* 与头部高度一致 */
+            bottom: 0;
+        }
+        .layui-layout-admin .layui-body {
+            top: 60px; /* 与头部高度一致 */
+            bottom: 0;
+            left: 200px;
+            right: 0;
+            overflow: hidden;
+        }
+        .layui-layout-admin .layui-body iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        /* 美化头部 */
+        .admin-header {
+            padding: 0 20px;
+            color: #fff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .admin-title {
+            font-size: 18px;
+            font-weight: bold;
+        }
+        /* 美化侧边栏 */
+        .layui-nav-tree {
+            background-color: #393D49;
+        }
+        .layui-nav-item a {
+            color: #fff !important;
+        }
+        .layui-nav-item.layui-this {
+            background-color: #009688;
+        }
+    </style>
+</head>
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+    <!-- 头部区域 -->
+    <div class="layui-header">
+        <div class="admin-header">
+            <div class="admin-title">管理员面板</div>
+            <div>
+                <button class="layui-btn layui-btn-normal layui-btn-sm" id="logoutBtn">
+                    <i class="layui-icon layui-icon-logout"></i> 退出登录
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 左侧导航 -->
+    <div class="layui-side layui-bg-black">
+        <div class="layui-side-scroll">
+            <ul class="layui-nav layui-nav-tree" lay-filter="admin-nav">
+                <li class="layui-nav-item layui-this">
+                    <a href="javascript:;" data-url="/page/category">
+                        <i class="layui-icon layui-icon-list"></i> 分类管理
+                    </a>
+                </li>
+                <li class="layui-nav-item">
+                    <a href="javascript:;" data-url="/page/product">
+                        <i class="layui-icon layui-icon-cart"></i> 商品管理
+                    </a>
+                </li>
+                <li class="layui-nav-item">
+                    <a href="javascript:;" data-url="/page/order">
+                        <i class="layui-icon layui-icon-form"></i> 订单管理
+                    </a>
+                </li> <!-- 新增 -->
+            </ul>
+        </div>
+    </div>
+
+    <!-- 内容主体 -->
+    <div class="layui-body">
+        <iframe src="/page/category" frameborder="0" id="contentFrame"></iframe>
+    </div>
+</div>
+
+<script src="/layui/layui.js"></script>
+<script>
+    layui.use(['element', 'layer'], function(){
+        var element = layui.element;
+        var layer = layui.layer;
+        var $ = layui.jquery;
+
+        // 监听导航点击
+        $('.layui-nav-item a').on('click', function(){
+            var url = $(this).data('url');
+            $('#contentFrame').attr('src', url);
+
+            $('.layui-nav-item').removeClass('layui-this');
+            $(this).parent().addClass('layui-this');
+        });
+
+        // 退出登录
+        $('#logoutBtn').on('click', function(){
+            layer.confirm('确定要退出登录吗？', {
+                title: '提示',
+                btn: ['确定', '取消']
+            }, function(){
+                $.ajax({
+                    url: '/shopping/logout',
+                    method: 'post',
+                    success: function(res){
+                        if(res === 1){
+                            layer.msg('已退出登录');
+                            setTimeout(function(){
+                                window.location.href = '/shopping/login';
+                            }, 1000);
+                        }
+                    },
+                    error: function(){
+                        layer.msg('退出失败，请稍后重试');
+                    }
+                });
+            });
+        });
+    });
+</script>
+</body>
+</html>

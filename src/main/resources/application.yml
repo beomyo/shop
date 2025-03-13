@@ -1,0 +1,23 @@
+# yml注释
+#mybatis
+
+#ORM框架都需要一个数据源
+#我们在spring制定的配置文件中配置好数据源所需要的信息,spring会自动创建数据源对象
+#并且通过注入的方式交给mybatis
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/shop?characterEncoding=utf-8&useSSL=false&serverTimezone=UTC
+    username: root
+    password: 123456
+
+#YML文件有固定的书写格式    spring.datasource.url
+
+#声明mybatis写sql语句的位置
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+
+logging:
+  level:
+    com.article.sys.dao: debug

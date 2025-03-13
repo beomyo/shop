@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html class="no-js" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <base href="/">
+  <meta charset="utf-8" />
+  <meta http-equiv="x-ua-compatible" content="ie=edge" />
+  <title>404 错误 - ShopGrids Bootstrap 5 电商HTML模板</title>
+  <meta name="description" content="" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="shortcut icon" type="image/x-icon" href="assets/images/favicon.svg" />
+
+  <!-- ========================= CSS here ========================= -->
+  <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="assets/css/LineIcons.3.0.css" />
+  <link rel="stylesheet" href="assets/css/main.css" />
+
+</head>
+
+<body>
+  <!--[if lte IE 9]>
+      <p class="browserupgrade">
+        您正在使用<strong>过时的</strong>浏览器。请<a href="https://browsehappy.com/">升级您的浏览器</a>以提升您的体验和安全性。
+      </p>
+    <![endif]-->
+
+  <!-- Preloader -->
+  <div class="preloader">
+    <div class="preloader-inner">
+      <div class="preloader-icon">
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+  </div>
+  <!-- /End Preloader -->
+
+  <!-- Start Error Area -->
+  <div class="error-area">
+    <div class="d-table">
+      <div class="d-table-cell">
+        <div class="container">
+          <div class="error-content">
+            <h1>404</h1>
+            <h2>抱歉！页面未找到！</h2>
+            <p>您访问的页面不存在。该页面可能已被移动或删除。</p>
+            <div class="button">
+              <a href="shopping/index" class="btn">返回首页</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- End Error Area -->
+
+  <!-- ========================= JS here ========================= -->
+  <script src="assets/js/bootstrap.min.js"></script>
+  <script>
+    window.onload = function () {
+      window.setTimeout(fadeout, 500);
+    }
+
+    function fadeout() {
+      document.querySelector('.preloader').style.opacity = '0';
+      document.querySelector('.preloader').style.display = 'none';
+    }
+  </script>
+</body>
+
+</html>

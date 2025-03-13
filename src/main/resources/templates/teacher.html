@@ -1,0 +1,1182 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <base href="/">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>小米商城</title>
+    <link rel="stylesheet" href="index/css/reset.css">
+    <script src="index/sidebar.js"></script>
+    <link rel="stylesheet" href="index/icon/iconfont.css">
+</head>
+
+<body>
+    <!-- 侧边导航栏 -->
+    <div class="side-bar">
+        <ul class="side-bar-list">
+            <li class="side-bar-child">
+                <img src="index/img/side1.png" alt="">
+                <p>手机APP</p>
+            </li>
+            <li class="side-bar-child">
+                <img src="index/img/side2.png" alt="">
+                <p>个人中心</p>
+            </li>
+            <li class="side-bar-child">
+                <img src="index/img/side3.png" alt="">
+                <p>售后服务</p>
+            </li>
+            <li class="side-bar-child">
+                <img src="index/img/side4.png" alt="">
+                <p>人工客服</p>
+            </li>
+            <li class="side-bar-child">
+                <img src="index/img/side5.png" alt="">
+                <p>购物车</p>
+            </li>
+        </ul>
+    </div>
+
+    <!-- 黑色导航栏 -->
+    <div class="black-nav">
+        <div class="wrap">
+            <ul class="black-nav-left">
+                <li><a href="https://www.mi.com/">小米官网</a><span>|</span></li>
+                <li><a href="#">小米商城</a><span>|</span></li>
+                <li><a href="https://hyperos.mi.com/">小米澎湃OS</a><span>|</span></li>
+                <li><a href="https://www.xiaomiev.com/">小米汽车</a><span>|</span></li>
+                <li><a href="https://i.mi.com/">云服务</a><span>|</span></li>
+                <li><a href="https://iot.mi.com/">IoT</a><span>|</span></li>
+                <li><a href="https://www.xiaomiyoupin.com/">有品</a><span>|</span></li>
+                <li><a href="https://xiaoai.mi.com/">小爱开放平台</a><span>|</span></li>
+                <li><a href="https://www.mi.com/shop/aptitude/list?id=88">资质证照</a><span>|</span></li>
+                <li><a href="https://www.mi.com/shop/aptitude/list">协议规则</a><span>|</span></li>
+                <li>
+                    <a href="#">下载App</a><span>|</span>
+                    <div class="download">
+                        <img src="index/img/a.png" alt="">
+                        <p>小米商城app</p>
+                    </div>
+                </li>
+                <li><a href="#">Select Location</a></li>
+            </ul>
+            <ul class="black-nav-right">
+                <li><a href="#">登录</a><span>|</span></li>
+                <li><a href="#">注册</a><span>|</span></li>
+                <li><a href="#">消息通知</a></li>
+                <li class="cart">
+                    <a href="#">
+
+                        <p>购物车（0）</p>
+                    </a>
+                    <div class="cart-list">
+                        购物车中还没有商品，赶紧选购吧！
+                    </div>
+                </li>
+            </ul>
+
+        </div>
+    </div>
+
+    <!-- 白色导航栏 -->
+    <div class="white-nav">
+        <div class="wrap">
+            <div class="logo">
+                <img src="index/img/milogo.png" alt="">
+            </div>
+            <div class="nav-bar">
+                <ul>
+                    <li>
+                        <a href="#">Xiaomi手机</a>
+                        <div class="nav-bar-list">
+                            <div class="wrap">
+                                <ul>
+                                    <li>
+                                        <a href="#">
+                                            <div class="img-box">
+                                                <img src="index/img/Fold.webp" alt="">
+                                                <p class="name">Xiaomi MIX Fold 4</p>
+                                                <p class="price">8999元起</p>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <div class="img-box">
+                                                <img src="index/img/MIX Flip.webp" alt="">
+                                                <p class="name">Xiaomi MIX Flip</p>
+                                                <p class="price">5999元起</p>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <div class="img-box">
+                                                <img src="index/img/civi4pro.png" alt="">
+                                                <p class="name">Xiaomi Civi 4 Pro</p>
+                                                <p class="price">2799元起</p>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <div class="img-box">
+                                                <img src="index/img/14ultra.webp" alt="">
+                                                <p class="name">Xiaomi 14 Ultra</p>
+                                                <p class="price">5999元起</p>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <div class="img-box">
+                                                <img src="index/img/114pro.webp" alt="">
+                                                <p class="name">Xiaomi 14 Pro</p>
+                                                <p class="price">4599元起</p>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <div class="img-box">
+                                                <img src="index/img/14.webp" alt="">
+                                                <p class="name">Xiaomi 14</p>
+                                                <p class="price">3999元起</p>
+                                            </div>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                    <li><a href="#">Redmi手机</a>
+                        <div class="nav-bar-list">
+                            <div class="wrap">
+                                <ul>
+                                    <li>
+                                        <a href="#">
+                                            <div class="img-box">
+                                                <img src="index/img/redmi.webp" alt="">
+                                                <p class="name">Redmi Note 14 Pro</p>
+                                                <p class="price">1899元起</p>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <div class="img-box">
+                                                <img src="index/img/redmi.webp" alt="">
+                                                <p class="name">Redmi Note 14 Pro</p>
+                                                <p class="price">1899元起</p>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <div class="img-box">
+                                                <img src="index/img/redmi.webp" alt="">
+                                                <p class="name">Redmi Note 14 Pro</p>
+                                                <p class="price">1899元起</p>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <div class="img-box">
+                                                <img src="index/img/redmi.webp" alt="">
+                                                <p class="name">Redmi Note 14 Pro</p>
+                                                <p class="price">1899元起</p>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <div class="img-box">
+                                                <img src="index/img/redmi.webp" alt="">
+                                                <p class="name">Redmi Note 14 Pro</p>
+                                                <p class="price">1899元起</p>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <div class="img-box">
+                                                <img src="index/img/redmi.webp" alt="">
+                                                <p class="name">Redmi Note 14 Pro</p>
+                                                <p class="price">1899元起</p>
+                                            </div>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                    <li><a href="#">电视</a>
+                        <div class="nav-bar-list">
+                            <div class="wrap">
+                                <ul>
+                                    <li>
+                                        <a href="#">
+                                            <div class="img-box">
+                                                <img src="index/img/mitv.webp" alt="">
+                                                <p class="name">小米电视 S Pro 75</p>
+                                                <p class="price">6499元起</p>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <div class="img-box">
+                                                <img src="index/img/mitv.webp" alt="">
+                                                <p class="name">小米电视 S Pro 75</p>
+                                                <p class="price">6499元起</p>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <div class="img-box">
+                                                <img src="index/img/mitv.webp" alt="">
+                                                <p class="name">小米电视 S Pro 75</p>
+                                                <p class="price">6499元起</p>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <div class="img-box">
+                                                <img src="index/img/mitv.webp" alt="">
+                                                <p class="name">小米电视 S Pro 75</p>
+                                                <p class="price">6499元起</p>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <div class="img-box">
+                                                <img src="index/img/mitv.webp" alt="">
+                                                <p class="name">小米电视 S Pro 75</p>
+                                                <p class="price">6499元起</p>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <div class="img-box">
+                                                <img src="index/img/mitv.webp" alt="">
+                                                <p class="name">小米电视 S Pro 75</p>
+                                                <p class="price">6499元起</p>
+                                            </div>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                    <li><a href="#">笔记本</a>
+                        <div class="nav-bar-list">
+                            <div class="wrap">
+                                <ul>
+                                    <li>
+                                        <a href="#">
+                                            <div class="img-box">
+                                                <img src="index/img/laptop.webp" alt="">
+                                                <p class="name">Redmi Book Pro 16</p>
+                                                <p class="price">6499元起</p>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <div class="img-box">
+                                                <img src="index/img/laptop.webp" alt="">
+                                                <p class="name">Redmi Book Pro 16</p>
+                                                <p class="price">6499元起</p>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <div class="img-box">
+                                                <img src="index/img/laptop.webp" alt="">
+                                                <p class="name">Redmi Book Pro 16</p>
+                                                <p class="price">6499元起</p>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <div class="img-box">
+                                                <img src="index/img/laptop.webp" alt="">
+                                                <p class="name">Redmi Book Pro 16</p>
+                                                <p class="price">6499元起</p>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <div class="img-box">
+                                                <img src="index/img/laptop.webp" alt="">
+                                                <p class="name">Redmi Book Pro 16</p>
+                                                <p class="price">6499元起</p>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <div class="img-box">
+                                                <img src="index/img/laptop.webp" alt="">
+                                                <p class="name">Redmi Book Pro 16</p>
+                                                <p class="price">6499元起</p>
+                                            </div>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                    <li><a href="#">平板</a>
+                        <div class="nav-bar-list">
+                            <div class="wrap">
+                                <ul>
+                                    <li>
+                                        <a href="#">
+                                            <div class="img-box">
+                                                <img src="index/img/pad6.webp" alt="">
+                                                <p class="name">Xiaomi Pad 6 Pro</p>
+                                                <p class="price">2499元起</p>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <div class="img-box">
+                                                <img src="index/img/pad6.webp" alt="">
+                                                <p class="name">Xiaomi Pad 6 Pro</p>
+                                                <p class="price">2499元起</p>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <div class="img-box">
+                                                <img src="index/img/pad6.webp" alt="">
+                                                <p class="name">Xiaomi Pad 6 Pro</p>
+                                                <p class="price">2499元起</p>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <div class="img-box">
+                                                <img src="index/img/pad6.webp" alt="">
+                                                <p class="name">Xiaomi Pad 6 Pro</p>
+                                                <p class="price">2499元起</p>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <div class="img-box">
+                                                <img src="index/img/pad6.webp" alt="">
+                                                <p class="name">Xiaomi Pad 6 Pro</p>
+                                                <p class="price">2499元起</p>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <div class="img-box">
+                                                <img src="index/img/pad6.webp" alt="">
+                                                <p class="name">Xiaomi Pad 6 Pro</p>
+                                                <p class="price">2499元起</p>
+                                            </div>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                    <li><a href="#">家电</a>
+                        <div class="nav-bar-list">
+                            <div class="wrap">
+                                <ul>
+                                    <li>
+                                        <a href="#">
+                                            <div class="img-box">
+                                                <img src="index/img/wash.webp" alt="">
+                                                <p class="name">米家洗烘一体机</p>
+                                                <p class="price">1899元起</p>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <div class="img-box">
+                                                <img src="index/img/wash.webp" alt="">
+                                                <p class="name">米家洗烘一体机</p>
+                                                <p class="price">1899元起</p>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <div class="img-box">
+                                                <img src="index/img/wash.webp" alt="">
+                                                <p class="name">米家洗烘一体机</p>
+                                                <p class="price">1899元起</p>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <div class="img-box">
+                                                <img src="index/img/wash.webp" alt="">
+                                                <p class="name">米家洗烘一体机</p>
+                                                <p class="price">1899元起</p>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <div class="img-box">
+                                                <img src="index/img/wash.webp" alt="">
+                                                <p class="name">米家洗烘一体机</p>
+                                                <p class="price">1899元起</p>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <div class="img-box">
+                                                <img src="index/img/wash.webp" alt="">
+                                                <p class="name">米家洗烘一体机</p>
+                                                <p class="price">1899元起</p>
+                                            </div>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                    <li><a href="#">路由器</a>
+                        <div class="nav-bar-list">
+                            <div class="wrap">
+                                <ul>
+                                    <li>
+                                        <a href="#">
+                                            <div class="img-box">
+                                                <img src="index/img/luyou.webp" alt="">
+                                                <p class="name">Xiaomi 路由器 AX3000T</p>
+                                                <p class="price">159元</p>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <div class="img-box">
+                                                <img src="index/img/luyou.webp" alt="">
+                                                <p class="name">Xiaomi 路由器 AX3000T</p>
+                                                <p class="price">159元</p>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <div class="img-box">
+                                                <img src="index/img/luyou.webp" alt="">
+                                                <p class="name">Xiaomi 路由器 AX3000T</p>
+                                                <p class="price">159元</p>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <div class="img-box">
+                                                <img src="index/img/luyou.webp" alt="">
+                                                <p class="name">Xiaomi 路由器 AX3000T</p>
+                                                <p class="price">159元</p>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <div class="img-box">
+                                                <img src="index/img/luyou.webp" alt="">
+                                                <p class="name">Xiaomi 路由器 AX3000T</p>
+                                                <p class="price">159元</p>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <div class="img-box">
+                                                <img src="index/img/luyou.webp" alt="">
+                                                <p class="name">Xiaomi 路由器 AX3000T</p>
+                                                <p class="price">159元</p>
+                                            </div>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                    <li><a href="#">服务中心</a></li>
+                    <li><a href="#">社区</a></li>
+                </ul>
+            </div>
+            <div class="search">
+                <input type="text" placeholder="吹风机"></input>
+                <button class="iconfont">搜索</button>
+
+            </div>
+        </div>
+    </div>
+
+
+    <!-- banner -->
+    <div class="banner">
+        <div class="wrap">
+            <div class="slide">
+                <ul id="categorylist">
+<!--                    <li><a href="#">手机</a>-->
+<!--                        <div class="slide-list">-->
+<!--                            <ul>-->
+<!--                                <li>-->
+<!--                                    <a href="#">-->
+<!--                                        <img src="index/img/Flip.webp" alt="">-->
+<!--                                        <span>Xiaomi MIX系列</span>-->
+<!--                                    </a>-->
+<!--                                </li>-->
+<!--                            </ul>-->
+<!--                        </div>-->
+<!--                    </li>-->
+<!--                    <li><a href="#">电视</a>-->
+<!--                        <div class="slide-list">-->
+<!--                            <ul>-->
+<!--                                <li>-->
+<!--                                    <a href="#">-->
+<!--                                        <img src="index/img/dianshi.webp" alt="">-->
+<!--                                        <span>小米电视 S Pro Mini LED</span>-->
+<!--                                    </a>-->
+<!--                                </li>-->
+<!--                            </ul>-->
+<!--                        </div>-->
+<!--                    </li>-->
+<!--                    <li><a href="#">家电</a>-->
+<!--                        <div class="slide-list">-->
+<!--                            <ul>-->
+<!--                                <li>-->
+<!--                                    <a href="#">-->
+<!--                                        <img src="index/img/air.png" alt="">-->
+<!--                                        <span>壁挂空调</span>-->
+<!--                                    </a>-->
+<!--                                </li>-->
+<!--                            </ul>-->
+<!--                        </div>-->
+<!--                    </li>-->
+<!--                    <li><a href="#">笔记本 平板 显示器</a>-->
+<!--                        <div class="slide-list">-->
+<!--                            <ul>-->
+<!--                                <li>-->
+<!--                                    <a href="#">-->
+<!--                                        <img src="index/img/A27U.webp" alt="">-->
+<!--                                        <span>Redmi A27U 显示器</span>-->
+<!--                                    </a>-->
+<!--                                </li>-->
+<!--                            </ul>-->
+<!--                        </div>-->
+<!--                    </li>-->
+<!--                    <li><a href="#">出行 穿戴</a>-->
+<!--                        <div class="slide-list">-->
+<!--                            <ul>-->
+<!--                                <li>-->
+<!--                                    <a href="#">-->
+<!--                                        <img src="index/img/miband9.webp" alt="">-->
+<!--                                        <span>Xiaomi MIX系列</span>-->
+<!--                                    </a>-->
+<!--                                </li>-->
+<!--                            </ul>-->
+<!--                        </div>-->
+<!--                    </li>-->
+<!--                    <li><a href="#">耳机 音箱</a>-->
+<!--                        <div class="slide-list">-->
+<!--                            <ul>-->
+<!--                                <li>-->
+<!--                                    <a href="#">-->
+<!--                                        <img src="index/img/buts6.png" alt="">-->
+<!--                                        <span>Redmi Buds 6</span>-->
+<!--                                    </a>-->
+<!--                                </li>-->
+<!--                            </ul>-->
+<!--                        </div>-->
+<!--                    </li>-->
+<!--                    <li><a href="#">健康 儿童</a>-->
+<!--                        <div class="slide-list">-->
+<!--                            <ul>-->
+<!--                                <li>-->
+<!--                                    <a href="#">-->
+<!--                                        <img src="index/img/xishouji.jpg" alt="">-->
+<!--                                        <span>洗手机</span>-->
+<!--                                    </a>-->
+<!--                                </li>-->
+<!--                            </ul>-->
+<!--                        </div>-->
+<!--                    </li>-->
+<!--                    <li><a href="#">生活 箱包</a>-->
+<!--                        <div class="slide-list">-->
+<!--                            <ul>-->
+<!--                                <li>-->
+<!--                                    <a href="#">-->
+<!--                                        <img src="index/img/bag.jpg" alt="">-->
+<!--                                        <span>小背包</span>-->
+<!--                                    </a>-->
+<!--                                </li>-->
+<!--                            </ul>-->
+<!--                        </div>-->
+<!--                    </li>-->
+<!--                    <li><a href="#">智能 路由器</a>-->
+<!--                        <div class="slide-list">-->
+<!--                            <ul>-->
+<!--                                <li>-->
+<!--                                    <a href="#">-->
+<!--                                        <img src="index/img/luyouqi.webp" alt="">-->
+<!--                                        <span>路由器</span>-->
+<!--                                    </a>-->
+<!--                                </li>-->
+<!--                            </ul>-->
+<!--                        </div>-->
+<!--                    </li>-->
+<!--                    <li><a href="#">电源 配件</a>-->
+<!--                        <div class="slide-list">-->
+<!--                            <ul>-->
+<!--                                <li>-->
+<!--                                    <a href="#">-->
+<!--                                        <img src="index/img/chapai.jpg" alt="">-->
+<!--                                        <span>插排</span>-->
+<!--                                    </a>-->
+<!--                                </li>-->
+<!--                            </ul>-->
+<!--                        </div>-->
+<!--                    </li>-->
+                </ul>
+            </div>
+            <div class="banner-img">
+                <div class="carousel">
+                    <img src="index/img/banner0.webp" class="active">
+                    <img src="index/img/banner1.webp" alt="">
+                    <img src="index/img/banner2.webp" alt="">
+                    <img src="index/img/banner3.webp" alt="">
+                    <img src="index/img/banner4.webp" alt="">
+                    <img src="index/img/banner5.webp" alt="">
+                </div>
+                <button class="prev">&lt</button>
+                <button class="next">&gt</button>
+                <div class="zhiding">
+                    <li class="active"></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="./banner.js"></script>
+
+    
+    <!-- 广告模块 -->
+    <div class="ad">
+        <div class="wrap">
+            <div class="ad-aside">
+                <ul>
+                    <li><a href="#">
+                            <p>保障服务</p>
+                        </a></li>
+                    <li><a href="#">
+                            <p>企业团购</p>
+                        </a></li>
+                    <li><a href="#">
+                            <p>F码通道</p>
+                        </a></li>
+                    <li><a href="#">
+                            <p>米粉卡</p>
+                        </a></li>
+                    <li><a href="#">
+                            <p>以旧换新</p>
+                        </a></li>
+                    <li><a href="#">
+                            <p>话费充值</p>
+                        </a></li>
+                </ul>
+            </div>
+            <div class="ad-img">
+                <a href="#">
+                    <img src="index/img/ad1.png" alt="">
+                </a>
+            </div>
+            <div class="ad-img">
+                <a href="#">
+                    <img src="index/img/ad2.jpg" alt="">
+                </a>
+            </div>
+            <div class="ad-img">
+                <a href="#">
+                    <img src="index/img/ad3.png" alt="">
+                </a>
+            </div>
+
+        </div>
+    </div>
+
+    
+
+    <!-- 内容模块 -->
+    <div class="content">
+        <div class="wrap">
+            <!-- 手机模块 -->
+            <div class="phone">
+                <div class="phone-top">
+                    <h3 class="title">手机</h3>
+                    <div class="phone-top-right">
+                        <a href="#">查看更多</a>
+                    </div>
+                </div>
+
+                <div class="phone-box active">
+                    <div class="phone-box-left">
+                        <a href="#">
+                            <img src="index/img/left.webp" alt="">
+                        </a>
+                    </div>
+                    <div class="phone-box-right">
+                        
+                    </div>
+                </div>
+            </div>
+
+            <!-- tab栏切换部分 html797-956行 css365-473行 tab.js-->
+            <!-- 智能穿戴 -->
+            <div class="wear">
+                <div class="phone-top">
+                    <h3 class="title">穿戴</h3>
+                    <div class="phone-top-right">
+                        <a href="#" class="active" data-id="0">耳机</a>
+                        <a href="#" data-id="1">穿戴</a>
+                    </div>
+                </div>
+
+                <div class="phone-content">
+                    <div class="phone-box active">
+                        <div class="phone-box-left">
+                            <a href="#">
+                                <img src="index/img/watch.webp" alt="">
+                            </a>
+                        </div>
+                        <div class="phone-box-right">
+                            <div class="item">
+                                <a href="#">
+                                    <img src="index/img/redmi buds6.webp" alt="">
+                                    <p class="item-name">Redmi Buds 6 青春版</p>
+                                    <p class="item-desc">42db深度主动降噪</p>
+                                    <p class="item-price">139元</p>
+                                </a>
+                            </div>
+                            <div class="item">
+                                <a href="#">
+                                    <img src="index/img/redmi buds6.webp" alt="">
+                                    <p class="item-name">Redmi Buds 6 青春版</p>
+                                    <p class="item-desc">42db深度主动降噪</p>
+                                    <p class="item-price">139元</p>
+                                </a>
+                            </div>
+                            <div class="item">
+                                <a href="#">
+                                    <img src="index/img/redmi buds6.webp" alt="">
+                                    <p class="item-name">Redmi Buds 6 青春版</p>
+                                    <p class="item-desc">42db深度主动降噪</p>
+                                    <p class="item-price">139元</p>
+                                </a>
+                            </div>
+                            <div class="item">
+                                <a href="#">
+                                    <img src="index/img/redmi buds6.webp" alt="">
+                                    <p class="item-name">Redmi Buds 6 青春版</p>
+                                    <p class="item-desc">42db深度主动降噪</p>
+                                    <p class="item-price">139元</p>
+                                </a>
+                            </div>
+                            <div class="item">
+                                <a href="#">
+                                    <img src="index/img/redmi buds6.webp" alt="">
+                                    <p class="item-name">Redmi Buds 6 青春版</p>
+                                    <p class="item-desc">42db深度主动降噪</p>
+                                    <p class="item-price">139元</p>
+                                </a>
+                            </div>
+                            <div class="item">
+                                <a href="#">
+                                    <img src="index/img/redmi buds6.webp" alt="">
+                                    <p class="item-name">Redmi Buds 6 青春版</p>
+                                    <p class="item-desc">42db深度主动降噪</p>
+                                    <p class="item-price">139元</p>
+                                </a>
+                            </div>
+                            <div class="item">
+                                <a href="#">
+                                    <img src="index/img/redmi buds6.webp" alt="">
+                                    <p class="item-name">Redmi Buds 6 青春版</p>
+                                    <p class="item-desc">42db深度主动降噪</p>
+                                    <p class="item-price">139元</p>
+                                </a>
+                            </div>
+                            <div class="item">
+                                <a href="#">
+                                    <img src="index/img/redmi buds6.webp" alt="">
+                                    <p class="item-name">Redmi Buds 6 青春版</p>
+                                    <p class="item-desc">42db深度主动降噪</p>
+                                    <p class="item-price">139元</p>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="phone-box">
+                        <div class="phone-box-left">
+                            <a href="#">
+                                <img src="index/img/watch.webp" alt="">
+                            </a>
+                        </div>
+                        <div class="phone-box-right">
+                            <div class="item">
+                                <a href="#">
+                                    <img src="index/img/5090db76-843d-4b16-b518-392764eef046.webp" alt="">
+                                    <p class="item-name">小米手环9</p>
+                                    <p class="item-desc">炫彩金属机身</p>
+                                    <p class="item-price">249元起</p>
+                                </a>
+                            </div>
+                            <div class="item">
+                                <a href="#">
+                                    <img src="index/img/5090db76-843d-4b16-b518-392764eef046.webp" alt="">
+                                    <p class="item-name">小米手环9</p>
+                                    <p class="item-desc">炫彩金属机身</p>
+                                    <p class="item-price">249元起</p>
+                                </a>
+                            </div>
+                            <div class="item">
+                                <a href="#">
+                                    <img src="index/img/5090db76-843d-4b16-b518-392764eef046.webp" alt="">
+                                    <p class="item-name">小米手环9</p>
+                                    <p class="item-desc">炫彩金属机身</p>
+                                    <p class="item-price">249元起</p>
+                                </a>
+                            </div>
+                            <div class="item">
+                                <a href="#">
+                                    <img src="index/img/5090db76-843d-4b16-b518-392764eef046.webp" alt="">
+                                    <p class="item-name">小米手环9</p>
+                                    <p class="item-desc">炫彩金属机身</p>
+                                    <p class="item-price">249元起</p>
+                                </a>
+                            </div>
+                            <div class="item">
+                                <a href="#">
+                                    <img src="index/img/5090db76-843d-4b16-b518-392764eef046.webp" alt="">
+                                    <p class="item-name">小米手环9</p>
+                                    <p class="item-desc">炫彩金属机身</p>
+                                    <p class="item-price">249元起</p>
+                                </a>
+                            </div>
+                            <div class="item">
+                                <a href="#">
+                                    <img src="index/img/5090db76-843d-4b16-b518-392764eef046.webp" alt="">
+                                    <p class="item-name">小米手环9</p>
+                                    <p class="item-desc">炫彩金属机身</p>
+                                    <p class="item-price">249元起</p>
+                                </a>
+                            </div>
+                            <div class="item">
+                                <a href="#">
+                                    <img src="index/img/5090db76-843d-4b16-b518-392764eef046.webp" alt="">
+                                    <p class="item-name">小米手环9</p>
+                                    <p class="item-desc">炫彩金属机身</p>
+                                    <p class="item-price">249元起</p>
+                                </a>
+                            </div>
+                            <div class="item">
+                                <a href="#">
+                                    <img src="index/img/5090db76-843d-4b16-b518-392764eef046.webp" alt="">
+                                    <p class="item-name">小米手环9</p>
+                                    <p class="item-desc">炫彩金属机身</p>
+                                    <p class="item-price">249元起</p>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="./tab.js"></script>
+    <script src="./ajax.js"></script>
+
+    <!-- 页脚 -->
+    <div class="footer">
+        <div class="wrap">
+            <div class="footer-service">
+                <ul>
+                    <ul>
+                        <li>
+                            <a href="#">
+                                <span class="iconfont icon-iconfont7tian"></span>
+                                <span>预约维修服务</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <span class="iconfont icon-iconfont15tianwuliyoutuihuo1"></span>
+                                <span>7天无理由退货</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <span class="iconfont icon-iconfontbaoyou1"></span>
+                                <span>15天免费换货</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <span class="iconfont icon-iconfonticonposition1"></span>
+                                <span>满69包邮</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <span class="iconfont icon-iconfontkuaixiufuwu1"></span>
+                                <span>1100余家售后网点</span>
+                            </a>
+                        </li>
+                    </ul>
+                </ul>
+            </div>
+            <div class="footer-link">
+                <ul>
+                    <li></li>
+                </ul>
+                <ul>
+                    <li>选购指南</li>
+                    <li>
+                        <a href="#">手机</a>
+                    </li>
+                    <li>
+                        <a href="#">电视</a>
+                    </li>
+                    <li>
+                        <a href="#">笔记本</a>
+                    </li>
+                    <li>
+                        <a href="#">平板</a>
+                    </li>
+                    <li>
+                        <a href="#">穿戴</a>
+                    </li>
+                    <li>
+                        <a href="#">耳机</a>
+                    </li>
+                    <li>
+                        <a href="#">家电</a>
+                    </li>
+                    <li>
+                        <a href="#">路由器</a>
+                    </li>
+                    <li>
+                        <a href="#">音箱</a>
+                    </li>
+                    <li>
+                        <a href="#">配件</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li>服务中心</li>
+                    <li>
+                        <a href="#">申请售后</a>
+                    </li>
+                    <li>
+                        <a href="#">售后政策</a>
+                    </li>
+                    <li>
+                        <a href="#">维修服务价格</a>
+                    </li>
+                    <li>
+                        <a href="#">订单查询</a>
+                    </li>
+                    <li>
+                        <a href="#">以旧换新</a>
+                    </li>
+                    <li>
+                        <a href="#">保障服务</a>
+                    </li>
+                    <li>
+                        <a href="#">防伪查询</a>
+                    </li>
+                    <li>
+                        <a href="#">F码通道</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li>线下门店</li>
+                    <li>
+                        <a href="#">小米之家</a>
+                    </li>
+                    <li>
+                        <a href="#">服务网点</a>
+                    </li>
+                    <li>
+                        <a href="#">授权体验店/专区</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li>关于小米</li>
+                    <li>
+                        <a href="#">了解小米</a>
+                    </li>
+                    <li>
+                        <a href="#">加入小米</a>
+                    </li>
+                    <li>
+                        <a href="#">投资者关系</a>
+                    </li>
+                    <li>
+                        <a href="#">可持续发展</a>
+                    </li>
+                    <li>
+                        <a href="#">廉洁举报</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li>关注我们</li>
+                    <li>
+                        <a href="#">新浪微博</a>
+                    </li>
+                    <li>
+                        <a href="#">官方微信</a>
+                    </li>
+                    <li>
+                        <a href="#">联系我们</a>
+                    </li>
+                    <li>
+                        <a href="#">公益基金会</a>
+                    </li>
+                </ul>
+
+                <div class="footer-aside">
+                    <p class="tel">400-100-5678</p>
+                    <p class="time">8:00-18:00（仅收市话费）</p>
+                    <a href="#" class="kefu">人工客服</a>
+                    <p class="tel">400-100-8888</p>
+                    <p class="time">8:00-18:00（仅收市话费）</p>
+                    <a href="#" class="kefu">人工客服</a>
+                </div>
+            </div>
+
+
+
+            <!-- 底部 -->
+            <div class="bottom">
+                <div class="wrap">
+                    <div class="bottom-logo">
+                        <img src="index/img/milogo.png" alt="">
+                    </div>
+                    <div class="bottom-text">
+                        <ul class="bottom-text-top">
+                            <li><a href="#">小米商城</a><span>|</span></li>
+                            <li><a href="#">小米澎湃OS</a><span>|</span></li>
+                            <li><a href="#">米家</a><span>|</span></li>
+                            <li><a href="#">多看</a><span>|</span></li>
+                            <li><a href="#">游戏</a><span>|</span></li>
+                            <li><a href="#">音乐</a><span>|</span></li>
+                            <li><a href="#">政企服务</a><span>|</span></li>
+                            <li><a href="#">小米天猫店</a><span>|</span></li>
+                            <li><a href="#">小米集团隐私政策</a><span>|</span></li>
+                            <li><a href="#">小米公司儿童信息保护规则</a><span>|</span></li>
+                            <li><a href="#">小米商城隐私政策</a><span>|</span></li>
+                            <li><a href="#">小米商城用户协议</a><span>|</span></li>
+                            <li><a href="#">问题反馈</a><span>|</span></li>
+                            <li><a href="#">Select Location</a><span></span></li>
+                        </ul>
+                        <ul class="bottom-text-top">
+                            <li><a href="#">北京互联网法院法律服务工作站</a><span>|</span></li>
+                            <li><a href="#">中国消费者协会</a><span>|</span></li>
+                            <li><a href="#">北京市消费者协会</a><span></span></li>
+                        </ul>
+                        <ul class="bottom-text-middle">
+                            <li>© mi.com 京ICP证110507号 京ICP备10046444号 京公网安备11010802020134号 京网文[2023]0169-004号</li>
+                            <li>（京）网械平台备字（2018）第00005号 互联网药品信息服务资格证 (京)-非经营性-2014-0090 营业执照 医疗器械质量公告</li>
+                            <li>增值电信业务经营许可证编号：京B2-20180851 网络食品经营备案 京食药网食备202010048 食品经营许可证 新出发京批字第直220280号</li>
+                            <li>违法和不良信息举报电话：171-5104-4404 知识产权侵权投诉 本网站所列数据，除特殊说明，所有数据均出自我司实验室测试</li>
+                        </ul>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script src="layui/layui.all.js"></script>
+<script type="text/html" id="categoryitem">
+    <li><a href="#">手机</a>
+        <div class="slide-list">
+            <ul>
+            </ul>
+        </div>
+    </li>
+</script>
+<script type="text/html" id="categorychild">
+
+            <li>
+                <a href="#">
+                    <img src="index/img/Flip.webp" alt="">
+                    <span>Xiaomi MIX系列</span>
+                </a>
+            </li>
+</script>
+    <script>
+        const $ = layui.$;
+        $.ajax({
+            url: 'category/list',
+            data: {id: -1},
+            success: function (result) {
+                let data = result.data;
+                console.log(data.length);
+                for (let i = 0; i < data.length; i++) {
+                    let item = $("#categoryitem").text();
+                    let $item = $('' + item);
+                    $item.children("a").text(data[i].name);
+                    let $ul = $item.find("ul");
+                    $.ajax({
+                        url: "category/getchildren",
+                        data: {id: data[i].id},
+                        success: function (res) {
+                            for (let i = 0; i < res.length; i++) {
+                                let childtext = $("#categorychild").text();
+                                let $child = $(childtext);
+                                $child.find("span").text(res[i].name)
+                                $child.find("img").attr("src", res[i].imgurl)
+                                $ul.append($child);
+                            }
+                        }
+                    });
+                    $("#categorylist").append($item);
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

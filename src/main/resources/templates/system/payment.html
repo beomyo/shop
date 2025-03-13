@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html class="no-js" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <base href="/">
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <title>支付订单</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="shortcut icon" type="image/x-icon" href="assets/images/favicon.svg" />
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="assets/css/LineIcons.3.0.css" />
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <link rel="stylesheet" href="layui/css/layui.min.css">
+    <style>
+        .payment-wrapper { padding: 50px 0; text-align: center; }
+        .payment-box { background: #fff; padding: 30px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); max-width: 500px; margin: 0 auto; }
+        .qrcode-img { margin: 20px 0; }
+        .btn-back { margin-top: 20px; }
+    </style>
+</head>
+<body>
+<header class="header navbar-area">
+    <div class="header-middle">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-3 col-md-3 col-7">
+                    <a class="navbar-brand" href="shopping/index"><img src="assets/images/logo/logo.svg" alt="Logo"></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<section class="payment-wrapper">
+    <div class="container">
+        <div class="payment-box">
+            <h3>请使用支付宝扫码支付</h3>
+            <img id="qrcode" class="qrcode-img" alt="支付二维码" />
+            <p>订单号: <span id="orderId"></span></p>
+            <a href="shopping/index" class="btn btn-primary btn-back">返回首页</a>
+        </div>
+    </div>
+</section>
+<script src="assets/js/bootstrap.min.js"></script>
+<script src="jquery-3.6.0.min.js"></script>
+<script src="layui/layui.all.js"></script>
+<script>
+    $(document).ready(function() {
+        const qrcode = sessionStorage.getItem('qrcode');
+        const orderId = sessionStorage.getItem('orderId');
+
+        if (qrcode && orderId) {
+            $('#qrcode').attr('src', 'data:image/png;base64,' + qrcode);
+            $('#orderId').text(orderId);
+
+            // 启动轮询检查支付状态
+            let checkCount = 0;
+            const maxChecks = 60; // 最多检查60次（约5分钟，假设每5秒检查一次）
+            const checkInterval = setInterval(function() {
+                $.ajax({
+                    url: '/checkout/checkOrderStatus',
+                    type: 'GET',
+                    data: { orderId: orderId },
+                    success: function(response) {
+                        if (response.status === 'success') {
+                            clearInterval(checkInterval);
+                            layui.layer.alert('支付成功！点击确认返回首页', { icon: 1 }, function() {
+                                window.location.href = '/shopping/index';
+                            });
+                        } else if (response.status === 'error') {
+                            clearInterval(checkInterval);
+                            layui.layer.alert('订单不存在，请重新提交订单', { icon: 2 }, function() {
+                                window.location.href = '/shopping/checkout';
+                            });
+                        } else {
+                            checkCount++;
+                            if (checkCount >= maxChecks) {
+                                clearInterval(checkInterval);
+                                layui.layer.confirm('支付超时，请确认是否已支付。点击确定重新生成订单，点击取消返回首页', { icon: 3 }, function(index) {
+                                    window.location.href = '/shopping/checkout';
+                                    layui.layer.close(index);
+                                }, function(index) {
+                                    window.location.href = '/shopping/index';
+                                    layui.layer.close(index);
+                                });
+                            }
+                        }
+                    },
+                    error: function(xhr) {
+                        clearInterval(checkInterval);
+                        layui.layer.confirm('支付状态检查失败：' + xhr.responseText + '\n是否重试？', { icon: 2 }, function(index) {
+                            window.location.href = '/shopping/checkout';
+                            layui.layer.close(index);
+                        }, function(index) {
+                            window.location.href = '/shopping/index';
+                            layui.layer.close(index);
+                        });
+                    }
+                });
+            }, 3000); // 每5秒检查一次
+        } else {
+            layui.layer.alert('支付信息加载失败，请重新提交订单', { icon: 2 }, function() {
+                window.location.href = '/shopping/checkout';
+            });
+        }
+
+        sessionStorage.removeItem('qrcode');
+        sessionStorage.removeItem('orderId');
+    });
+</script>
+</body>
+</html>

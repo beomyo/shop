@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html class="no-js" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <base href="/">
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <title>登录</title>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="shortcut icon" type="image/x-icon" href="assets/images/favicon.svg" />
+
+    <!-- ========================= CSS here ========================= -->
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="assets/css/LineIcons.3.0.css" />
+    <link rel="stylesheet" href="assets/css/tiny-slider.css" />
+    <link rel="stylesheet" href="assets/css/glightbox.min.css" />
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <link rel="stylesheet" href="layui/css/layui.css">
+
+</head>
+
+<body>
+    <!-- Start Header Area -->
+    <header class="header navbar-area">
+        <!-- Start Topbar -->
+        <div class="topbar">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-4 col-md-4 col-12">
+                        <div class="top-left">
+
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-12">
+                        <div class="top-middle">
+                            <ul class="useful-links">
+
+
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-12">
+                        <div class="top-end">
+
+                            <ul class="user-login">
+                                <li>
+                                    <a href="shopping/login">登录</a>
+                                </li>
+                                <li>
+                                    <a href="shopping/register">注册</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Topbar -->
+        <!-- Start Header Middle -->
+        <div class="header-middle">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-3 col-md-3 col-7">
+                        <!-- Start Header Logo -->
+                        <a class="navbar-brand" href="shopping/index">
+                            <img src="assets/images/logo/logo.svg" alt="Logo">
+                        </a>
+                        <!-- End Header Logo -->
+                    </div>
+
+                    <div class="col-lg-4 col-md-2 col-5">
+                        <div class="middle-right-area">
+                            <div class="nav-hotline">
+                                <h3>
+                                    <span></span>
+                                </h3>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- End Header Area -->
+
+    <!-- Start Breadcrumbs -->
+    <div class="breadcrumbs">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 col-md-6 col-12">
+                    <div class="breadcrumbs-content">
+                        <h1 class="page-title">登录</h1>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-12">
+                    <ul class="breadcrumb-nav">
+                        <li><a href="shopping/index"><i class="lni lni-home"></i> 首页</a></li>
+                        <li>登录</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Breadcrumbs -->
+
+    <!-- Start Account Login Area -->
+    <div class="account-login section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 offset-lg-3 col-md-10 offset-md-1 col-12">
+                    <form class="card login-form" method="post">
+                        <div class="card-body">
+                            <div class="title">
+                                <h3>登录</h3>
+                                <p>你需要输入用户名和密码进行登录</p>
+                            </div>
+                            <div class="form-group input-group">
+                                <label for="username">用户名</label>
+                                <input name="username" class="form-control" type="text" id="username" required>
+                            </div>
+                            <div class="form-group input-group">
+                                <label for="password">密码</label>
+                                <input name="password" class="form-control" type="password" id="password" required>
+                            </div>
+                            <div class="d-flex flex-wrap justify-content-between bottom-content">
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input width-auto" id="rememberMe">
+                                    <label class="form-check-label" for="rememberMe">记住我</label>
+                                </div>
+                                <a class="lost-pass" href="account-password-recovery.html">忘记密码?</a>
+                            </div>
+                            <div class="button">
+                                <button id="loginbtn" class="btn" type="button">登录</button>
+                            </div>
+                            <p class="outer-link">还没账户? <a href="shopping/register">点击这里注册 </a></p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ========================= scroll-top ========================= -->
+    <a href="#" class="scroll-top">
+        <i class="lni lni-chevron-up"></i>
+    </a>
+
+    <!-- ========================= JS here ========================= -->
+    <script src="assets/js/bootstrap.min.js"></script>
+    <script src="assets/js/tiny-slider.js"></script>
+    <script src="assets/js/glightbox.min.js"></script>
+    <script src="assets/js/main.js"></script>
+    <script src="layui/layui.all.js"></script>
+    <script>
+        const $ = layui.$;
+        const layer = layui.layer;
+
+        // 页面加载时检查是否有保存的登录信息
+        $(document).ready(function() {
+            const savedUsername = localStorage.getItem('username');
+            const savedPassword = localStorage.getItem('password');
+            const rememberMe = localStorage.getItem('rememberMe') === 'true';
+
+            if (savedUsername && savedPassword && rememberMe) {
+                $("[name='username']").val(savedUsername);
+                $("[name='password']").val(savedPassword);
+                $("#rememberMe").prop('checked', true);
+            }
+        });
+        // 监听回车键按下事件
+        $("[name='username'], [name='password']").keypress(function(event) {
+            if (event.which === 13) { // 13 是回车键的 keyCode
+                $("#loginbtn").click(); // 触发登录按钮的点击事件
+            }
+        });
+        $("#loginbtn").click(function () {
+            let username = $("[name='username']").val();
+            let password = $("[name='password']").val();
+            let rememberMe = $("#rememberMe").is(':checked');
+            let reg = /^[a-zA-Z0-9]{0,16}$/;
+
+            if (reg.test(username) && reg.test(password)) {
+                // 登录操作
+                $.ajax({
+                    url: 'shopping/dologin',
+                    data: {username: username, password: password},
+                    success: function (result) {
+                        if (result === "success") {
+                            // 如果勾选了记住我，则保存登录信息
+                            if (rememberMe) {
+                                localStorage.setItem('username', username);
+                                localStorage.setItem('password', password);
+                                localStorage.setItem('rememberMe', 'true');
+                            } else {
+                                // 如果没有勾选，则清除保存的信息
+                                localStorage.removeItem('username');
+                                localStorage.removeItem('password');
+                                localStorage.removeItem('rememberMe');
+                            }
+
+                            layer.msg("登录成功", {icon: 1});
+                            setTimeout(function () {
+                                location.href = "shopping/index";
+                            }, 500);
+                        }else if(result === "admin"){
+                            if (rememberMe) {
+                                localStorage.setItem('username', username);
+                                localStorage.setItem('password', password);
+                                localStorage.setItem('rememberMe', 'true');
+                            } else {
+                                // 如果没有勾选，则清除保存的信息
+                                localStorage.removeItem('username');
+                                localStorage.removeItem('password');
+                                localStorage.removeItem('rememberMe');
+                            }
+
+                            layer.msg("登录成功", {icon: 1});
+                            setTimeout(function () {
+                                location.href = "page/admin";
+                            }, 500);
+                        }
+                        else {
+                            layer.msg("登录失败");
+                        }
+                    },
+                    error: function() {
+                        layer.msg("登录请求失败");
+                    }
+                });
+            } else {
+                layer.msg("未填写完整或格式不合规");
+            }
+        });
+    </script>
+</body>
+</html>

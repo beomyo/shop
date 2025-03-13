@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <base href="/">
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="layui/css/layui.css">
+    <style>
+        #imgbox img{
+            width: 100px;
+
+        }
+    </style>
+</head>
+<body>
+<button type="button" id="uploadBTN" class="layui-btn">上传</button>
+<div id="imgbox"></div>
+<script src="layui/layui.all.js"></script>
+<script>
+    const upload=layui.upload;
+    const $=layui.$;
+    upload.render({
+        elem: '#uploadBTN',
+        url: "file/upload",
+        done: function(result){
+            let src=result.data[0].src;
+            $("#imgbox").append("<img src='"+src+"'>");
+        },
+        error: function(){},
+
+    });
+</script>
+</body>
+</html>

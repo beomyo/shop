@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <base href="/">
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="layui/css/layui.css" />
+    <style>
+        .profile-container {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+        .avatar-wrapper {
+            text-align: center;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        .avatar-preview {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #f2f2f2;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .avatar-preview:hover {
+            border-color: #1E9FFF;
+            opacity: 0.8;
+        }
+        .avatar-wrapper::after {
+            content: '点击更换头像';
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #666;
+            font-size: 12px;
+        }
+        .layui-form-item {
+            margin-bottom: 20px;
+        }
+        .layui-form-label {
+            width: 100px;
+            color: #333;
+        }
+        .layui-input-block {
+            margin-left: 130px;
+        }
+        .layui-input {
+            border-radius: 4px;
+        }
+        .submit-btn {
+            text-align: center;
+        }
+        .layui-btn {
+            background-color: #1E9FFF;
+            border-radius: 4px;
+            padding: 0 30px;
+        }
+    </style>
+</head>
+<body>
+<div class="layui-card-body profile-container" id="basicInfoPanel">
+    <form class="layui-form" id="basicInfoForm">
+        <div class="avatar-wrapper">
+            <img id="avatarPreview" class="avatar-preview" src="" alt="用户头像">
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">昵称</label>
+            <div class="layui-input-block">
+                <input type="text" name="nickname" lay-verify="required" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">用户名</label>
+            <div class="layui-input-block">
+                <input type="text" name="username" disabled class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">手机号</label>
+            <div class="layui-input-block">
+                <input type="text" name="tel" lay-verify="phone" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item submit-btn">
+            <button class="layui-btn" lay-submit lay-filter="saveBasic">保存修改</button>
+        </div>
+    </form>
+</div>
+
+<script src="layui/layui.all.js"></script>
+<script type="text/javascript" th:inline="none">
+    /* <![CDATA[ */
+    layui.use(['form', 'upload', 'jquery'], function(){
+        var form = layui.form;
+        var upload = layui.upload;
+        var $ = layui.jquery;
+
+        // 加载用户信息
+        $.get('/shopping/iflogin', function(user) {
+            if (user) {
+                $('input[name="nickname"]').val(user.nickname);
+                $('input[name="username"]').val(user.username);
+                $('input[name="tel"]').val(user.tel);
+                $('#avatarPreview').attr('src', user.imgurl || '/assets/images/cart/01.jpg');
+            }
+        });
+
+        // 头像上传 - 修改为点击图片触发
+        upload.render({
+            elem: '#avatarPreview', // 绑定到头像图片
+            url: '/file/upload',
+            done: function(res) {
+                if (res.code === 0) {
+                    var imgUrl = res.data[0].src;
+                    $('#avatarPreview').attr('src', imgUrl);
+                    $.post('/user/updateAvatar', {imgurl: imgUrl}, function(result) {
+                        if (result === 1) {
+                            layer.msg('头像更新成功');
+                        }
+                    });
+                }
+            }
+        });
+
+        // 基本信息保存
+        form.on('submit(saveBasic)', function(data) {
+            var requestData = {
+                imgurl: $('#avatarPreview').attr('src'),
+                nickname: data.field.nickname,
+                tel: data.field.tel
+            };
+            $.ajax({
+                url: '/user/updateBasic',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(requestData),
+                success: function(res) {
+                    if (res > 0) {
+                        layer.msg('信息更新成功');
+                        $.get('/shopping/iflogin', function(user) {
+                            $('input[name="nickname"]').val(user.nickname);
+                            $('input[name="username"]').val(user.username);
+                            $('input[name="tel"]').val(user.tel);
+                            $('#avatarPreview').attr('src', user.imgurl || '/assets/images/cart/01.jpg');
+                        });
+                    } else {
+                        layer.msg('更新失败');
+                    }
+                }
+            });
+            return false;
+        });
+    });
+    /* ]]> */
+</script>
+</body>
+</html>

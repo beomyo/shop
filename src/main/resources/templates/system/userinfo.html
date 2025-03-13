@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html class="no-js" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <base href="/">
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <title>用户信息</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="shortcut icon" type="image/x-icon" href="assets/images/favicon.svg" />
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="assets/css/LineIcons.3.0.css" />
+    <link rel="stylesheet" href="assets/css/tiny-slider.css" />
+    <link rel="stylesheet" href="assets/css/glightbox.min.css" />
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <link rel="stylesheet" href="layui/css/layui.css" />
+    <style>
+        .layui-container { margin-top: 20px; }
+        .layui-card { box-shadow: 0 2px 8px rgba(0,0,0,0.1); border-radius: 8px; }
+        .layui-card-header { background-color: #f8f9fa; font-weight: bold; color: #333; }
+        /* 调整左侧菜单样式 */
+        .layui-nav-tree { background-color: #fff; border: 1px solid #e6e6e6; border-radius: 4px; }
+        .layui-nav-tree .layui-nav-item a { color: #555; }
+        .layui-nav-tree .layui-nav-item.layui-this a { background-color: #009688; color: white; }
+        iframe { border-radius: 8px; }
+        .scroll-top { background-color: #009688; color: white; }
+        .scroll-top:hover { background-color: #007b66; }
+    </style>
+</head>
+<body>
+<header class="header navbar-area">
+    <div class="topbar">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-12 col-md-4 col-12">
+                    <div class="top-end">
+                        <ul class="user-login" id="loginStatus">
+                            <li><a href="shopping/login">登录</a></li>
+                            <li><a href="shopping/register">注册</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="header-middle">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-3 col-md-3 col-7">
+                    <a class="navbar-brand" href="shopping/index">
+                        <img src="assets/images/logo/logo.svg" alt="Logo">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<div class="layui-container">
+    <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+        <legend>用户中心</legend>
+    </fieldset>
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md3">
+            <div class="layui-card">
+                <div class="layui-card-header"><i class="layui-icon layui-icon-list"></i> 功能菜单</div>
+                <div class="layui-card-body">
+                    <ul class="layui-nav layui-nav-tree" lay-filter="userNav">
+                        <li class="layui-nav-item layui-this"><a href="javascript:;" data-url="page/basicinfo"><i class="layui-icon layui-icon-username"></i> 基本信息</a></li>
+                        <li class="layui-nav-item"><a href="javascript:;" data-url="page/addressinfo"><i class="layui-icon layui-icon-location"></i> 地址信息</a></li>
+                        <li class="layui-nav-item"><a href="javascript:;" data-url="page/passwordinfo"><i class="layui-icon layui-icon-key"></i> 修改密码</a></li>
+                        <li class="layui-nav-item"><a href="javascript:;" data-url="page/orderinfo"><i class="layui-icon layui-icon-cart"></i> 订单信息</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-md9">
+            <div class="layui-card">
+                <div class="layui-card-header"><i class="layui-icon layui-icon-file"></i> 内容区域</div>
+                <div class="layui-card-body">
+                    <iframe id="contentFrame" style="width: 100%; height: 600px; border: none;" src="page/basicinfo"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<a href="#" class="scroll-top">
+    <i class="lni lni-chevron-up"></i>
+</a>
+
+<script src="assets/js/bootstrap.min.js"></script>
+<script src="assets/js/tiny-slider.js"></script>
+<script src="assets/js/glightbox.min.js"></script>
+<script src="assets/js/main.js"></script>
+<script src="layui/layui.all.js"></script>
+<script type="text/javascript" th:inline="none">
+    /* <![CDATA[ */
+    layui.use(['element', 'jquery'], function(){
+        var element = layui.element;
+        var $ = layui.jquery;
+
+        // 检查登录状态
+        $.get('/shopping/iflogin', function(user) {
+            if (user) {
+                $('#loginStatus').html('<li><a href="javascript:;" id="logout">退出登录</a></li>');
+            }
+        });
+
+        // 退出登录
+        $(document).on('click', '#logout', function() {
+            $.post('/shopping/logout', function(res) {
+                if (res === 1) {
+                    location.href = '/shopping/login';
+                }
+            });
+        });
+
+        // 切换页面
+        $('.layui-nav-item a').click(function() {
+            var url = $(this).data('url');
+            $('.layui-nav-item').removeClass('layui-this');
+            $(this).parent().addClass('layui-this');
+            $('#contentFrame').attr('src', url);
+        });
+    });
+    /* ]]> */
+</script>
+</body>
+</html>

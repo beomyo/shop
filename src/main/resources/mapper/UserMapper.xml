@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.article.sys.dao.UserDao">
+    <select id="getUserByUsername" resultType="com.article.sys.bean.User">
+        select * from user where username=#{username}
+    </select>
+    <select id="getUserById" resultType="com.article.sys.bean.User">
+        select * from user where id=#{Id}
+    </select>
+
+    <insert id="doRegister">
+        insert into user (nickname, username, password, tel, register_time) VALUE
+            (#{nickname}, #{username}, #{password}, #{tel}, now())
+    </insert>
+    <update id="Logintime">
+        update  user set last_login_time= now() where username=#{username}
+    </update>
+
+    <select id="doIflogin" resultType="com.article.sys.bean.User">
+        select * from user where username=#{username}
+    </select>
+    <update id="updateAvatar">
+        update user set imgurl=#{imgurl} where id=#{userId}
+    </update>
+    <update id="updateUser">
+        update user set imgurl=#{user.imgurl},nickname=#{user.nickname},tel=#{user.tel} where id=#{user.id}
+    </update>
+    <update id="updatePassword">
+        UPDATE user
+        SET password = #{newPassword}
+        WHERE id = #{userId}
+    </update>
+</mapper>

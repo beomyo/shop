@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.article.sys.dao.UserAddressDao">
+    <select id="getAddressesByUserId" resultType="com.article.sys.bean.UserAddress">
+        SELECT * FROM useraddress WHERE userid = #{userid}
+    </select>
+
+    <update id="updateAddress">
+        UPDATE useraddress SET
+                               province = #{address.province},
+                               city = #{address.city},
+                               area = #{address.area},
+                               provinceid = #{address.provinceId},
+                               cityid = #{address.cityId},
+                               areaid = #{address.areaId},
+                               address = #{address.address},
+                               name = #{address.name},
+                               tel = #{address.tel},
+                               isdefault = #{address.isdefault}
+        WHERE id = #{address.id} AND userid = #{address.userid}
+    </update>
+
+    <insert id="addAddress" useGeneratedKeys="true" keyProperty="address.id">
+        INSERT INTO useraddress (
+            userid, province, city, area, provinceid, cityid, areaid,
+            address, name, tel, isdefault
+        ) VALUES (
+                     #{address.userid}, #{address.province}, #{address.city}, #{address.area},
+                     #{address.provinceId}, #{address.cityId}, #{address.areaId},
+                     #{address.address}, #{address.name}, #{address.tel}, #{address.isdefault}
+                 )
+    </insert>
+    <delete id="deleteAddress">
+        DELETE FROM useraddress
+        WHERE id = #{id} AND userid = #{userid}
+    </delete>
+
+    <update id="clearDefaultAddress">
+        UPDATE useraddress
+        SET isdefault = 0
+        WHERE userid = #{userid}
+    </update>
+
+</mapper>

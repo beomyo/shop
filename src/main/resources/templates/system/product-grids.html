@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html class="no-js" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <base href="/"/>
+    <meta charset="utf-8"/>
+    <meta http-equiv="x-ua-compatible" content="ie=edge"/>
+    <title>Shop Grid</title>
+    <meta name="description" content=""/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="shortcut icon" type="image/x-icon" href="assets/images/favicon.svg"/>
+
+    <!-- ========================= CSS here ========================= -->
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="assets/css/LineIcons.3.0.css"/>
+    <link rel="stylesheet" href="assets/css/tiny-slider.css"/>
+    <link rel="stylesheet" href="assets/css/glightbox.min.css"/>
+    <link rel="stylesheet" href="assets/css/main.css"/>
+    <!-- 引入 layui 的 CSS 文件 -->
+    <link rel="stylesheet" href="layui/css/layui.css">
+    <style>
+        /* 固定图片容器的大小 */
+        .product-image {
+            width: 100%; /* 设置宽度为100% */
+            height: 200px; /* 设置固定的高度 */
+            overflow: hidden; /* 超出部分隐藏 */
+            position: relative; /* 相对定位 */
+        }
+
+        /* 图片样式 */
+        .product-image img {
+            width: 100%; /* 图片宽度占满容器 */
+            height: 100%; /* 图片高度占满容器 */
+            object-fit: cover; /* 保持图片比例，裁剪多余部分 */
+            transition: transform 0.3s ease; /* 添加平滑过渡效果 */
+        }
+
+        /* 鼠标悬停时图片放大效果 */
+        .product-image:hover img {
+            transform: scale(1.1); /* 图片放大 */
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- Preloader -->
+
+<!-- /End Preloader -->
+
+<!-- Start Header Area -->
+<header class="header navbar-area">
+    <!-- Start Topbar -->
+    <div class="topbar">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-4 col-md-4 col-12">
+                    <div class="top-left"></div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-12">
+                    <div class="top-middle">
+                        <ul class="useful-links"></ul>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-12">
+<!--                    <div class="top-end">-->
+<!--                        <ul class="user-login">-->
+<!--                            <li><a href="shopping/login">登录</a></li>-->
+<!--                            <li><a href="shopping/register">注册</a></li>-->
+<!--                        </ul>-->
+<!--                    </div>-->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Topbar -->
+    <!-- Start Header Middle -->
+    <div class="header-middle">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-3 col-md-3 col-12">
+                    <a class="navbar-brand" href="shopping/index">
+                        <img src="assets/images/logo/logo.svg" alt="Logo">
+                    </a>
+                </div>
+                <div class="col-lg-4 col-md-2 col-12">
+                    <div class="middle-right-area">
+                        <div class="nav-hotline"><h3><span></span></h3></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<!-- End Header Area -->
+
+<!-- Start Breadcrumbs -->
+<div class="breadcrumbs">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6 col-md-6 col-12">
+                <div class="breadcrumbs-content">
+                    <h1 class="page-title">商品列表</h1>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-12">
+                <ul class="breadcrumb-nav">
+                    <li><a href="shopping/index"><i class="lni lni-home"></i> 首页</a></li>
+                    <li><a href="javascript:void(0)">购物</a></li>
+                    <li>商品列表</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Breadcrumbs -->
+
+<!-- Start Product Grids -->
+<section class="product-grids section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 col-12">
+                <!-- Start Product Sidebar -->
+                <div class="product-sidebar">
+                    <div class="single-widget">
+                        <h3>全部类别</h3>
+                        <ul class="list" id="categoryList">
+                            <!-- Categories will be dynamically loaded here -->
+                        </ul>
+                    </div>
+                </div>
+                <!-- End Product Sidebar -->
+            </div>
+            <div class="col-lg-9 col-12">
+                <div class="product-grids-head">
+                    <div class="tab-content" id="nav-tabContent">
+                        <div class="tab-pane fade show active" id="nav-grid" role="tabpanel"
+                             aria-labelledby="nav-grid-tab">
+                            <div class="row" id="productList">
+                                <!-- 商品列表将通过 JavaScript 动态加载 -->
+                            </div>
+                            <div id="pagination"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ========================= JS here ========================= -->
+<script src="assets/js/bootstrap.min.js"></script>
+<script src="assets/js/tiny-slider.js"></script>
+<script src="assets/js/glightbox.min.js"></script>
+<script src="assets/js/main.js"></script>
+<!-- 引入 layui 的 JS 文件 -->
+<script src="layui/layui.all.js"></script>
+<script src="jquery-3.6.0.min.js"></script>
+
+<script>
+    // 获取 URL 参数中的 categoryid
+    var urlParams = new URLSearchParams(window.location.search);
+    var categoryid = urlParams.get('categoryid');
+
+    // 分页参数
+    var currentPage = 1;
+    var pageSize = 12;
+    var totalCount = 0;
+
+    // 加载商品列表
+    function loadProducts(page) {
+        $.ajax({
+            url: 'product/grids',
+            type: 'GET',
+            data: {
+                categoryid: categoryid,
+                page: page,
+                limit: pageSize
+            },
+            success: function (res) {
+                if (res.code === 0) {
+                    var products = res.data;
+                    totalCount = res.count; // 保存总数量
+
+                    // 渲染商品列表
+                    var html = '';
+                    products.forEach(function (product) {
+                        html += '<div class="col-lg-4 col-md-6 col-12">';
+                        html += '    <div class="single-product">';
+                        html += '        <div class="product-image">';
+                        html += '            <img src="' + product.defaultimg + '" alt="#">';
+                        html += '            <div class="button">';
+                        html += '                <a href="shopping/details?id=' + product.id + '" class="btn"><i class="lni lni-cart"></i>查看详情</a>';
+                        html += '            </div>';
+                        html += '        </div>';
+                        html += '        <div class="product-info">';
+                        html += '            <span class="category">' + product.category.name + '</span>';
+                        html += '            <h4 class="title"><a href="shopping/details?id=' + product.id + '">' + product.name + '</a></h4>';
+                        html += '            <ul class="review">';
+                        html += '                <li><i class="lni lni-star-filled"></i></li>';
+                        html += '                <li><i class="lni lni-star-filled"></i></li>';
+                        html += '                <li><i class="lni lni-star-filled"></i></li>';
+                        html += '                <li><i class="lni lni-star-filled"></i></li>';
+                        html += '                <li><i class="lni lni-star-filled"></i></li>';
+                        html += '                <li><span>5.0 </span></li>';
+                        html += '            </ul>';
+                        html += '            <div class="price"><span>$' + product.price + '</span><span class="discount-price">$'+product.oldprice+'</span></div>';
+                        html += '        </div>';
+                        html += '    </div>';
+                        html += '</div>';
+                    });
+                    $('#productList').html(html);
+
+                    // 初始化分页
+                    initPagination();
+                }
+            }
+        });
+    }
+
+    // 初始化分页
+    function initPagination() {
+        layui.use('laypage', function() {
+            var laypage = layui.laypage;
+
+            // 执行分页渲染
+            laypage.render({
+                elem: 'pagination', // 分页容器 ID
+                count: totalCount, // 数据总数
+                limit: pageSize,    // 每页显示条数
+                curr: currentPage,  // 当前页码
+                layout: ['count', 'prev', 'page', 'next', 'limit', 'skip'],
+                limits: [12, 24, 36], // 可选每页条数
+                jump: function(obj, first) {
+                    // 首次不执行
+                    if (!first) {
+                        currentPage = obj.curr;
+                        pageSize = obj.limit;
+                        loadProducts(currentPage);
+                    }
+                }
+            });
+        });
+    }
+
+    // 初始化加载第一页
+    loadProducts(currentPage);
+</script>
+<script>
+    // 加载类别列表
+    function loadCategories() {
+        $.ajax({
+            url: 'category/allWithProductCount',
+            type: 'GET',
+            success: function (res) {
+                var html = '';
+                res.forEach(function (category) {
+                    html += '<li>';
+                    html += '<a href="shopping/grids?categoryid=' + category.id + '">' + category.name + '</a>';
+                    html += '<span>(' + category.productCount + ')</span>';
+                    html += '</li>';
+                });
+                $('#categoryList').html(html);
+            },
+            error: function (xhr, status, error) {
+                console.error('Error loading categories:', error);
+            }
+        });
+    }
+
+    // 在页面加载时调用
+    $(document).ready(function () {
+        loadCategories();
+        loadProducts(currentPage); // Existing call to load products
+    });
+</script>
+</body>
+</html>

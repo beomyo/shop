@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html class="no-js" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <base href="/">
+    <meta charset="utf-8"/>
+    <meta http-equiv="x-ua-compatible" content="ie=edge"/>
+    <title>ShopGrids</title>
+    <meta name="description" content=""/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="shortcut icon" type="image/x-icon" href="assets/images/favicon.svg"/>
+
+    <!-- ========================= CSS here ========================= -->
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="assets/css/LineIcons.3.0.css"/>
+    <link rel="stylesheet" href="assets/css/tiny-slider.css"/>
+    <link rel="stylesheet" href="assets/css/glightbox.min.css"/>
+    <link rel="stylesheet" href="assets/css/main.css"/>
+    <link rel="stylesheet" href="layui/css/layui.css">
+    <style>
+        /* 固定图片容器的大小 */
+        .product-image {
+            width: 100%; /* 设置宽度为100% */
+            height: 200px; /* 设置固定的高度 */
+            overflow: hidden; /* 超出部分隐藏 */
+            position: relative; /* 相对定位 */
+        }
+
+        /* 图片样式 */
+        .product-image img {
+            width: 100%; /* 图片宽度占满容器 */
+            height: 100%; /* 图片高度占满容器 */
+            object-fit: cover; /* 保持图片比例，裁剪多余部分 */
+            transition: transform 0.3s ease; /* 添加平滑过渡效果 */
+        }
+
+        /* 鼠标悬停时图片放大效果 */
+        .product-image:hover img {
+            transform: scale(1.1); /* 图片放大 */
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- Start Header Area -->
+<header class="header navbar-area">
+    <!-- Start Topbar -->
+    <div class="topbar">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-4 col-md-4 col-12">
+                    <div class="top-left"></div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-12">
+                    <div class="top-middle">
+                        <ul class="useful-links"></ul>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-12">
+                    <div class="top-end">
+                        <ul class="user-login">
+                            <li><a href="shopping/login">登录</a></li>
+                            <li><a href="shopping/register">注册</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Topbar -->
+    <!-- Start Header Middle -->
+    <div class="header-middle">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-3 col-md-3 col-7">
+                    <!-- Start Header Logo -->
+                    <a class="navbar-brand" href="shopping/index">
+                        <img src="assets/images/logo/logo.svg" alt="Logo">
+                    </a>
+                    <!-- End Header Logo -->
+                </div>
+                <div class="col-lg-5 col-md-7 d-xs-none">
+
+                </div>
+                <div class="col-lg-4 col-md-2 col-5">
+                    <div class="middle-right-area">
+                        <div class="nav-hotline">
+                            <h3>
+                                <span></span>
+                            </h3>
+                        </div>
+                        <div class="navbar-cart">
+
+                            <div class="cart-items">
+                                <a href="shopping/cart" class="main-btn">
+                                    <i class="lni lni-cart"></i>
+                                    <!--                                        <span class="total-items">2</span>-->
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Header Middle -->
+    <!-- Start Header Bottom -->
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-8 col-md-6 col-12">
+                <div class="nav-inner">
+                    <!-- Start Mega Category Menu -->
+                    <div class="mega-category-menu">
+                        <span class="cat-button"><i class="lni lni-menu"></i>所有分类</span>
+                        <ul class="sub-category">
+
+                        </ul>
+                    </div>
+                    <!-- End Mega Category Menu -->
+                    <!-- Start Navbar -->
+                    <nav class="navbar navbar-expand-lg">
+                        <button class="navbar-toggler mobile-menu-btn" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                                aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="toggler-icon"></span>
+                            <span class="toggler-icon"></span>
+                            <span class="toggler-icon"></span>
+                        </button>
+                        <div class="collapse navbar-collapse sub-menu-bar" id="navbarSupportedContent">
+                            <ul id="nav" class="navbar-nav ms-auto">
+                                <li class="nav-item">
+                                    <a href="shopping/index" class="active" aria-label="Toggle navigation">首页</a>
+                                </li>
+
+
+                            </ul>
+                        </div> <!-- navbar collapse -->
+                    </nav>
+                    <!-- End Navbar -->
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- End Header Bottom -->
+</header>
+<!-- End Header Area -->
+
+<!-- Start Hero Area -->
+<section class="hero-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-12 custom-padding-right">
+                <div class="slider-head">
+                    <!-- Start Hero Slider -->
+                    <div class="hero-slider" id="heroSlider">
+                        <!-- 轮播图内容将由 JavaScript 动态生成 -->
+                    </div>
+                    <!-- End Hero Slider -->
+                </div>
+            </div>
+            <!-- 右侧小广告部分保持不变 -->
+            <div class="col-lg-4 col-12">
+                <div class="row">
+                    <div class="col-lg-12 col-md-6 col-12">
+                        <div class="hero-small-banner style2">
+                            <div class="content">
+                                <h2>今日活动!</h2>
+                                <p>产品大幅降价!</p>
+                                <div class="button">
+                                    <a class="btn" href="shopping/grids">查看详情</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 col-md-6 col-12 md-custom-padding" id="smallBannerContainer">
+                            <div class="hero-small-banner" id="smallBanner"
+                                 style="background-image: url('assets/images/hero/slider-bnr.jpg'); display: none;">
+                                <div class="content">
+                                    <h2>
+                                        <span id="productInfo">New line required</span>
+                                        <span id="productName">iPhone 12 Pro Max</span>
+                                    </h2>
+                                    <h3 id="productPrice">$259.99</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- End Features Area -->
+
+<!-- Start Trending Product Area -->
+<section class="trending-product section">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="section-title">
+                    <h2>热门产品</h2>
+                    <p>我们精心挑选了最受欢迎的商品，为您提供优质的购物选择。</p>
+                </div>
+            </div>
+        </div>
+        <div class="row" id="beomyo">
+
+
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <!-- Pagination Container -->
+                <div id="trendingPagination" class="pagination left" style="text-align: center; margin-top: 20px;">
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+<!-- ========================= scroll-top ========================= -->
+<a href="shopping/index" class="scroll-top">
+    <i class="lni lni-chevron-up"></i>
+</a>
+
+<!-- ========================= JS here ========================= -->
+<script src="assets/js/bootstrap.min.js"></script>
+<script src="assets/js/tiny-slider.js"></script>
+<script src="assets/js/glightbox.min.js"></script>
+<script src="assets/js/main.js"></script>
+<script type="text/javascript">
+    //========= Hero Slider
+    tns({
+        container: '.hero-slider',
+        slideBy: 'page',
+        autoplay: true,
+        autoplayButtonOutput: false,
+        mouseDrag: true,
+        gutter: 0,
+        items: 1,
+        nav: false,
+        controls: true,
+        controlsText: ['<i class="lni lni-chevron-left"></i>', '<i class="lni lni-chevron-right"></i>'],
+    });
+
+    //======== Brand Slider
+    tns({
+        container: '.brands-logo-carousel',
+        autoplay: true,
+        autoplayButtonOutput: false,
+        mouseDrag: true,
+        gutter: 15,
+        nav: false,
+        controls: false,
+        responsive: {
+            0: {
+                items: 1,
+            },
+            540: {
+                items: 3,
+            },
+            768: {
+                items: 5,
+            },
+            992: {
+                items: 6,
+            }
+        }
+    });
+
+</script>
+<script>
+    const finaleDate = new Date("February 15, 2023 00:00:00").getTime();
+
+    const timer = () => {
+        const now = new Date().getTime();
+        let diff = finaleDate - now;
+        if (diff < 0) {
+            document.querySelector('.alert').style.display = 'block';
+            document.querySelector('.container').style.display = 'none';
+        }
+
+        let days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        let hours = Math.floor(diff % (1000 * 60 * 60 * 24) / (1000 * 60 * 60));
+        let minutes = Math.floor(diff % (1000 * 60 * 60) / (1000 * 60));
+        let seconds = Math.floor(diff % (1000 * 60) / 1000);
+
+        days <= 99 ? days = `0${days}` : days;
+        days <= 9 ? days = `00${days}` : days;
+        hours <= 9 ? hours = `0${hours}` : hours;
+        minutes <= 9 ? minutes = `0${minutes}` : minutes;
+        seconds <= 9 ? seconds = `0${seconds}` : seconds;
+
+        document.querySelector('#days').textContent = days;
+        document.querySelector('#hours').textContent = hours;
+        document.querySelector('#minutes').textContent = minutes;
+        document.querySelector('#seconds').textContent = seconds;
+
+    }
+    timer();
+    setInterval(timer, 1000);
+</script>
+
+<script src="jquery-3.6.0.min.js"></script>
+<script src="layui/layui.all.js"></script>
+
+<script type="text/html" id="productitem">
+    <div class="col-lg-3 col-md-6 col-12">
+        <div class="single-product">
+            <div class="product-image">
+                <img src="assets/images/products/product-1.jpg" alt="#">
+                <div class="button">
+                    <a href="shopping/details" class="btn"><i class="lni lni-cart"></i> 加入购物车</a>
+                </div>
+            </div>
+            <div class="product-info">
+                <span class="category">智能手表</span>
+                <h4 class="title">
+                    <a href="shopping/grids">小米手环5</a>
+                </h4>
+                <ul class="review">
+                    <li><i class="lni lni-star-filled"></i></li>
+                    <li><i class="lni lni-star-filled"></i></li>
+                    <li><i class="lni lni-star-filled"></i></li>
+                    <li><i class="lni lni-star-filled"></i></li>
+                    <li><i class="lni lni-star"></i></li>
+                    <li><span>4.0 </span></li>
+                </ul>
+                <div class="price">
+                    <span>$199.00</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+
+
+<script>
+    layui.use(['jquery'], function () {
+        var $ = layui.$; // 使用 Layui 封装的 jQuery
+
+        // 创建整个菜单容器（保留原有的mega-category-menu结构）
+        var $megaMenu = $('<div class="mega-category-menu"></div>');
+        $megaMenu.append('<span class="cat-button"><i class="lni lni-menu"></i>所有分类</span>');
+
+        // 创建一级分类列表
+        var $subCategory = $('<ul class="sub-category"></ul>');
+        $megaMenu.append($subCategory);
+
+        // 获取一级分类
+        $.ajax({
+            url: 'category/getonetwo?pid=-1',
+            dataType: 'json',
+            success: function (categories) {
+                categories.forEach(function (category) {
+                    // 根据新模板创建一级菜单项
+                    var $li = $(`
+                        <li>
+                            <a href="javascript:;">
+                                ${category.name}
+                                <i class="lni lni-chevron-right"></i>
+                            </a>
+                            <ul class="inner-sub-category"></ul>
+                        </li>
+                    `);
+                    $subCategory.append($li);
+
+                    // 获取二级分类
+                    $.ajax({
+                        url: 'category/getonetwo?pid=' + category.id,
+                        dataType: 'json',
+                        success: function (subCategories) {
+                            var $innerList = $li.find('.inner-sub-category');
+                            subCategories.forEach(function (sub) {
+                                $innerList.append(`
+                                    <li>
+                                        <a href="shopping/grids?categoryid=${sub.id}">
+                                            ${sub.name}
+                                        </a>
+                                    </li>
+                                `);
+                            });
+                        },
+                        error: function (xhr, status, error) {
+                            console.error('加载二级分类失败:', error);
+                        }
+                    });
+                });
+
+                // 替换原有的 mega-category-menu
+                $('.nav-inner .mega-category-menu').replaceWith($megaMenu);
+            },
+            error: function (xhr, status, error) {
+                console.error('加载一级分类失败:', error);
+            }
+        });
+    });
+</script>
+
+
+<script>
+    layui.use(['jquery', 'layer'], function () {
+        var $ = layui.$,
+            layer = layui.layer;
+
+        // 显示加载提示
+        // var loading = layer.load(2);
+
+        $.ajax({
+            url: 'product/someproduct?limit=1',
+            method: 'GET',
+            dataType: 'json',
+            success: function (res) {
+                if (res && res.length > 0) { // 假设返回的是数组格式
+                    var product = res[0];   // 取第一条数据
+
+                    // 更新名称
+                    $('#productName').text(product.name);
+
+                    // 更新价格
+                    $('#productPrice').text(product.price + '元');
+
+                    // 更新info
+                    $('#productInfo').text(product.info);
+
+                    // 更新背景图片并显示
+                    $('#smallBanner').css('background-image', 'url("' + product.defaultimg + '")').show();
+                } else {
+                    // 如果没有数据，可以选择不显示或显示默认内容
+                    $('#smallBanner').hide();
+                }
+                layer.close(loading); // 关闭加载提示
+            },
+            error: function (err) {
+                layer.close(loading);
+                layer.msg('加载失败，请稍后重试');
+                $('#smallBanner').hide(); // 出错时隐藏
+                console.log('获取产品数据失败:', err);
+            }
+        });
+    });
+
+
+    layui.use(['jquery', 'layer'], function () {
+        var $ = layui.$;
+        var layer = layui.layer;
+
+        // 检查登录状态
+        function checkLoginStatus() {
+            $.ajax({
+                url: 'shopping/iflogin',
+                type: 'GET',
+                dataType: 'json',
+                success: function (res) {
+                    if (res && res.username) {
+                        updateUserMenu(res.username);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error('登录状态检查失败:', error);
+                }
+            });
+        }
+
+        // 更新用户菜单
+        function updateUserMenu(username) {
+            var userHtml = `
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">${username}</a>
+                <ul class="dropdown-menu" style="background-color: #081828; min-width: 110px; padding: 0.5rem 0;">
+                    <li><a class="dropdown-item" href="page/userinfo">个人信息</a>
+                    <a class="dropdown-item logout-btn"  href="javascript:">注销</a></li>
+                </ul>
+            </li>
+        `;
+            $('.user-login').html(userHtml);
+
+            // 初始化 Bootstrap 下拉菜单并添加悬停效果
+            $('.dropdown').hover(
+                function () {
+                    $(this).find('.dropdown-menu').stop(true, true).slideDown(200); // 鼠标移入时显示
+                    $(this).addClass('show'); // 添加 show 类以保持 Bootstrap 样式
+                    $(this).find('.dropdown-toggle').attr('aria-expanded', 'true');
+                },
+                function () {
+                    $(this).find('.dropdown-menu').stop(true, true).slideUp(200); // 鼠标移出时隐藏
+                    $(this).removeClass('show');
+                    $(this).find('.dropdown-toggle').attr('aria-expanded', 'false');
+                }
+            );
+
+            // 绑定注销事件
+            $('.logout-btn').on('click', handleLogout);
+        }
+
+        // 处理注销
+        function handleLogout() {
+            layer.confirm('确定要注销吗？', {icon: 3}, function (index) {
+                $.ajax({
+                    url: 'shopping/logout',
+                    type: 'POST',
+                    dataType: 'json',
+                    success: function (res) {
+                        if (res > 0) {
+                            layer.msg('注销成功', {icon: 1});
+                            setTimeout(() => location.href = 'shopping/index', 1000);
+                        } else {
+                            layer.msg('注销失败: ' + (res.msg || '未知错误'), {icon: 2});
+                        }
+                    },
+                    error: function () {
+                        layer.msg('网络错误，请稍后重试', {icon: 2});
+                    }
+                });
+                layer.close(index);
+            });
+        }
+
+        // 初始化
+        $(document).ready(function () {
+            checkLoginStatus();
+        });
+    });
+</script>
+
+<!--    分页-->
+<script>
+    layui.use(['jquery', 'laypage', 'layer'], function () {
+        var $ = layui.$,
+            laypage = layui.laypage,
+            layer = layui.layer;
+
+        // 获取并渲染热门产品
+        function loadTrendingProducts(pageNum, limit) {
+            $.ajax({
+                url: 'product/trending',
+                type: 'GET',
+                data: {
+                    page: pageNum,
+                    limit: limit
+                },
+                dataType: 'json',
+                success: function (result) {
+                    if (result.code === 0) {
+                        var products = result.data; // 数据在 result.data 中
+                        var totalCount = result.count; // 总记录数在 result.count 中
+                        $("#beomyo").empty(); // 清空现有产品
+
+                        // 渲染产品（保持原有逻辑不变）
+                        for (let i = 0; i < products.length; i++) {
+                            let item = $("#productitem").text();
+                            let $item = $(item);
+
+                            $item.find(".product-image img").attr("src", products[i].defaultimg);
+                            $item.find(".product-image img").attr("alt", products[i].name);
+                            $item.find(".category").text(products[i].category.name);
+                            $item.find(".title a").text(products[i].name);
+                            $item.find(".title a").attr("href", "shopping/details?id=" + products[i].id);
+                            $item.find(".price span").text("￥" + products[i].price);
+                            $item.find(".button a").attr("href", "cart/addtocart?productid=" + products[i].id + "&addprice=" + products[i].price);
+
+                            // 添加到购物车事件
+                            $item.find(".button a").on("click", function (event) {
+                                event.preventDefault();
+                                $.ajax({
+                                    url: "cart/addtocart",
+                                    type: "GET",
+                                    data: {
+                                        productid: products[i].id,
+                                        addprice: products[i].price
+                                    },
+                                    success: function (response) {
+                                        if (response > 0) {
+                                            layer.msg('商品已成功添加到购物车', {icon: 1, time: 1000});
+                                        } else {
+                                            layer.msg('操作失败，请先登录', {icon: 2, time: 2000});
+                                        }
+                                    },
+                                    error: function (error) {
+                                        console.error("添加到购物车失败", error);
+                                    }
+                                });
+                            });
+
+                            $("#beomyo").append($item);
+                        }
+
+                        // 渲染 Layui 分页
+                        laypage.render({
+                            elem: 'trendingPagination', // 分页容器的 ID
+                            count: totalCount, // 总记录数
+                            limit: limit, // 每页显示条数
+                            curr: pageNum, // 当前页
+                            layout: ['count', 'prev', 'page', 'next', 'limit', 'skip'], // 自定义布局
+                            jump: function (obj, first) {
+                                if (!first) { // 防止首次加载重复触发
+                                    loadTrendingProducts(obj.curr, obj.limit);
+                                }
+                            }
+                        });
+                    } else {
+                        layer.msg('加载热门产品失败: ' + result.msg, {icon: 2});
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error('加载热门产品失败:', error);
+                    layer.msg('网络错误，请稍后重试', {icon: 2});
+                }
+            });
+        }
+
+        // 初始加载第一页，每页 12 条
+        loadTrendingProducts(1, 12);
+    });
+</script>
+
+<script>
+    layui.use(['jquery', 'layer'], function () {
+        var $ = layui.$,
+            layer = layui.layer;
+
+        // 获取轮播图产品数据
+        function loadCarouselProducts() {
+            $.ajax({
+                url: 'product/carouselProducts', // 调用后端接口
+                method: 'GET',
+                dataType: 'json',
+                success: function (products) {
+                    if (products && products.length > 0) {
+                        var $sliderContainer = $('#heroSlider');
+                        $sliderContainer.empty(); // 清空现有轮播图内容
+
+                        // 动态生成轮播图项
+                        products.forEach(function (product) {
+                            var sliderHtml = `
+                            <div class="single-slider" style="background-image: url('${product.defaultimg}');">
+                                <div class="content">
+                                    <h2>
+<!--                                        <span>${product.info || '精选推荐'}</span>-->
+                                        ${product.name}
+                                    </h2>
+                                    <p>${product.info || '暂无描述'}</p>
+                                    <h3><span>仅售</span> ￥${product.price}</h3>
+                                    <div class="button">
+                                        <a href="shopping/details?id=${product.id}" class="btn">立即购买</a>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                            $sliderContainer.append(sliderHtml);
+                        });
+
+                        // 初始化 Tiny Slider
+                        tns({
+                            container: '.hero-slider',
+                            slideBy: 'page',
+                            autoplay: true,
+                            autoplayButtonOutput: false,
+                            mouseDrag: true,
+                            gutter: 0,
+                            items: 1,
+                            nav: false,
+                            controls: true,
+                            controlsText: ['<i class="lni lni-chevron-left"></i>', '<i class="lni lni-chevron-right"></i>']
+                        });
+                    } else {
+                        layer.msg('暂无产品数据', {icon: 2});
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error('加载轮播图产品失败:', error);
+                    layer.msg('网络错误，请稍后重试', {icon: 2});
+                }
+            });
+        }
+
+        // 页面加载时调用
+        $(document).ready(function () {
+            loadCarouselProducts();
+        });
+    });
+</script>
+</body>
+
+</html>

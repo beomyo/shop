@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <base href="/">
+    <meta charset="utf-8">
+    <title>订单管理</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="/layui/css/layui.css">
+    <style>
+        /* 去掉列表两侧的边距，占满页面 */
+        .layui-container {
+            padding: 0 !important;
+            width: 100%;
+        }
+        /* 将<h4>标签的字体改为标题字体 */
+        h4 {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+<div class="layui-container">
+    <table class="layui-table" id="orderTable" lay-filter="orderTable"></table>
+</div>
+
+<script src="/layui/layui.js"></script>
+<script type="text/javascript" th:inline="none">
+    layui.use(['table', 'layer'], function(){
+        var table = layui.table;
+        var layer = layui.layer;
+        var $ = layui.jquery;
+
+        // 渲染订单表格
+        table.render({
+            elem: '#orderTable',
+            url: '/order/getAllOrders',
+            page: true,
+            cols: [[
+                {field: 'id', title: '订单ID', width: 100},
+                {field: 'code', title: '订单编号', width: 200},
+                {field: 'userid', title: '用户ID', width: 100},
+                {field: 'money', title: '金额', width: 100},
+                {field: 'addtime', title: '下单时间', width: 180},
+                {field: 'state', title: '状态', width: 120, templet: function(d){
+                        switch(d.state) {
+                            case 0: return '未支付';
+                            case 1: return '已付款未发货';
+                            case 2: return '已发货未收货';
+                            case 3: return '已收货';
+                            case 4: return '已完成';
+                            case -1: return '已失效';
+                            default: return '未知';
+                        }
+                    }},
+                {title: '操作', toolbar: '#orderBar', width: 200}
+            ]],
+            parseData: function(res){
+                return {
+                    "code": res.code,
+                    "msg": res.msg,
+                    "count": res.count,
+                    "data": res.data
+                };
+            }
+        });
+
+        // 操作事件
+        table.on('tool(orderTable)', function(obj){
+            var data = obj.data;
+            if(obj.event === 'detail'){
+                showOrderDetail(data);
+            } else if(obj.event === 'deliver'){
+                layer.confirm('确认发货吗？', {
+                    btn: ['确定', '取消']
+                }, function(){
+                    $.post('/order/deliverOrder', {orderId: data.id}, function(res){
+                        if(res === 1){
+                            layer.msg('发货成功');
+                            table.reload('orderTable');
+                        } else {
+                            layer.msg('发货失败');
+                        }
+                    });
+                });
+            }
+        });
+
+        // 显示订单详情
+        function showOrderDetail(order){
+            $.get('/order/getOrderDetails?orderId=' + order.id, function(res){
+                var address = res.address || {};
+                var products = res.products || [];
+                var html = '<div style="padding: 20px;">' +
+                    '<h4>订单编号: ' + order.code + '</h4>' +
+                    '<p>用户ID: ' + order.userid + '</p>' +
+                    '<p>收货地址: ' + (address.address || '无') + '</p>' +
+                    '<p>收货人: ' + (address.name || '无') + ' (' + (address.tel || '无') + ')</p>' +
+                    '<table class="layui-table"><thead><tr><th>商品名称</th><th>数量</th><th>单价</th><th>图片</th></tr></thead><tbody>';
+                products.forEach(function(product){
+                    html += '<tr>' +
+                        '<td>' + product.procductname + '</td>' +
+                        '<td>' + product.number + '</td>' +
+                        '<td>' + product.price + '</td>' +
+                        '<td><img src="' + product.imgurl + '" style="width: 50px; height: 50px;"></td>' +
+                        '</tr>';
+                });
+                html += '</tbody></table></div>';
+                layer.open({
+                    type: 1,
+                    title: '订单详情',
+                    area: ['800px', '500px'],
+                    content: html
+                });
+            });
+        }
+    });
+</script>
+
+<script type="text/html" id="orderBar">
+    <a class="layui-btn layui-btn-xs" lay-event="detail">查看详情</a>
+    {{# if(d.state === 1){ }}
+    <a class="layui-btn layui-btn-xs layui-btn-normal" lay-event="deliver">发货</a>
+    {{# } }}
+</script>
+</body>
+</html>

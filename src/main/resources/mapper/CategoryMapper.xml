@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.article.sys.dao.CategoryDao">
+
+    <insert id="add">
+        insert into category (name, imgurl, pid, isdel, inserttime)
+        value (#{category.name},#{category.imgurl},#{category.pid},#{category.isdel},now())
+    </insert>
+
+<!--    <delete id="delete">-->
+<!--        delete from category where id=#{id}-->
+<!--    </delete>-->
+
+<!--    逻辑删除-->
+    <update id="delete">
+        update category set isdel =1 where id=#{id}
+    </update>
+    <update id="edit">
+        update category set name=#{category.name},
+                            imgurl=#{category.imgurl},
+                            pid=#{category.pid},
+                        updatetime=now()
+        where id=#{category.id}
+    </update>
+
+    <resultMap id="categoryMap" type="com.article.sys.bean.Category">
+<!--        强制声明,否则不会被设置-->
+        <result property="pid" column="pid"></result>
+<!--        获取的属性  以pid查询  查询方式-->
+        <association property="parent" column="pid" select="getParent"></association>
+    </resultMap>
+
+    <select id="getByID" resultMap="categoryMap">
+        select id,name,imgurl,pid,isdel,updatetime,inserttime
+        from category where id=#{id} and isdel=0
+    </select>
+    <select id="getParent" resultMap="categoryMap">
+        select id,name,imgurl,pid,isdel,updatetime,inserttime
+        from category where id=#{pid} and isdel=0
+    </select>
+
+    <select id="getChildren" resultType="com.article.sys.bean.Category">
+        select id,name,imgurl,pid,isdel,updatetime,inserttime
+        from category where pid=#{id} and isdel=0
+    </select>
+
+
+    <select id="getList" resultMap="categoryMap">
+        select id,name,imgurl,pid,isdel,updatetime,inserttime
+        from category
+        <where>
+            <if test="text!=null">
+            <bind name="liketext" value="'%'+text+'%'"></bind>
+                name like #{liketext}
+            </if>
+            and isdel=0
+        </where>
+        <if test="page.limit!=0">
+            limit #{page.start},#{page.limit}
+        </if>
+    </select>
+
+    <select id="getCount" resultType="int">
+        select COUNT(*)
+        from category
+        <where>
+            <if test="text!=null">
+                <bind name="liketext" value="'%'+text+'%'"></bind>
+                name like #{liketext}
+            </if>
+        and isdel=0
+        </where>
+    </select>
+
+<!--    获取一级二级分类-->
+    <select id="getOneTwo" resultType="com.article.sys.bean.Category">
+        select * from category where pid=#{pid}
+    </select>
+
+    <select id="getAllCategories" resultMap="categoryMap">
+        SELECT id, name, imgurl, pid, isdel, updatetime, inserttime
+        FROM category
+        WHERE isdel = 0 and pid!=-1
+    </select>
+</mapper>

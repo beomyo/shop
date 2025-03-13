@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.article.sys.dao.OrderDao">
+    <insert id="addOrder" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO `order` (code, userid, money, addtime, state)
+        VALUES (#{code}, #{userid}, #{money}, #{addtime}, #{state})
+    </insert>
+
+    <insert id="addOrderAddress">
+        INSERT INTO orderaddress (orderid, address, name, tel)
+        VALUES (#{orderid}, #{address}, #{name}, #{tel})
+    </insert>
+
+    <insert id="addOrderInfo">
+        INSERT INTO orderinfo (orderid, productid, number, price, procductname, imgurl)
+        VALUES (#{orderid}, #{productid}, #{number}, #{price}, #{procductname}, #{imgurl})
+    </insert>
+
+    <select id="getOrderById" resultType="com.article.sys.bean.Order">
+        SELECT * FROM `order` WHERE id = #{id}
+    </select>
+    <select id="getOrderByCode" resultType="com.article.sys.bean.Order">
+        select * FROM `order` WHERE code = #{code}
+    </select>
+
+<!--    <update id="updateOrder">-->
+<!--        UPDATE `order` SET state = #{state} WHERE id = #{id}-->
+<!--    </update>-->
+    <select id="getOrderInfosByOrderId" resultType="com.article.sys.bean.OrderInfo">
+        SELECT * FROM orderinfo WHERE orderid = #{orderId}
+    </select>
+    <select id="getOrdersByUserId" resultType="com.article.sys.bean.Order">
+        SELECT * FROM `order`
+        WHERE userid = #{userId}
+        ORDER BY addtime DESC
+        LIMIT #{start}, #{limit}
+    </select>
+
+    <select id="getOrderCountByUserId" resultType="int">
+        SELECT COUNT(*) FROM `order`
+        WHERE userid = #{userId}
+    </select>
+
+    <select id="getOrderAddressByOrderId" resultType="com.article.sys.bean.OrderAddress">
+        SELECT * FROM orderaddress
+        WHERE orderid = #{orderId}
+    </select>
+    <select id="getAllOrders" resultType="com.article.sys.bean.Order">
+        SELECT * FROM `order`
+        ORDER BY addtime DESC
+        LIMIT #{start}, #{limit}
+    </select>
+
+    <select id="getAllOrdersCount" resultType="int">
+        SELECT COUNT(*) FROM `order`
+    </select>
+    <update id="updateOrder">
+        UPDATE `order`
+        SET state = #{state},
+        paymenttime=#{paymenttime},
+        deliverytime = #{deliverytime},
+        receivetime = #{receivetime}, <!-- 新增 -->
+        updatetime = #{updatetime},
+        endtime=#{receivetime}
+        WHERE id = #{id}
+    </update>
+
+
+    <update id="cancleOrder">
+        update `order` set state=-1 ,updatetime=now() where state=0  and TIMESTAMPDIFF(minute,addtime,now())>10
+    </update>
+
+
+</mapper>

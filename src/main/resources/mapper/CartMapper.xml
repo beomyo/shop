@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.article.sys.dao.CartDao">
+
+    <!-- 添加商品到购物车 -->
+    <insert id="addToCart">
+        INSERT INTO cart (userid, productid, number, addprice)
+        VALUES (#{userid}, #{productid}, 1, #{addprice})
+        ON DUPLICATE KEY UPDATE number = number + 1;
+    </insert>
+
+
+    <resultMap id="cartProductResultMap" type="com.article.sys.bean.CartProductList">
+        <result property="count" column="count"/>
+        <collection property="productList" ofType="com.article.sys.bean.Product" select="GetProductListNoCount" column="userid"/>
+    </resultMap>
+
+    <select id="GetProductListNoCount" resultType="com.article.sys.bean.Product">
+        SELECT p.*, c.number as count
+        FROM product p
+                 INNER JOIN cart c ON p.id = c.productid
+        WHERE c.userid = #{userid}
+    </select>
+
+    <select id="GetCartProductList" resultMap="cartProductResultMap">
+        SELECT COUNT(*) as count, #{userid} as userid
+        FROM cart
+        WHERE userid = #{userid}
+    </select>
+
+
+
+    <update id="addInCart">
+        update cart set number=number+1 where productid=#{productid}
+    </update>
+    <update id="cutInCart">
+        update cart set number=number-1 where productid=#{productid} AND number > 1
+    </update>
+    <delete id="deleteInCart">
+        delete from cart where productid=#{productid}
+    </delete>
+
+    <update id="selectInCart">
+        <choose>
+            <when test="flag == 1">
+                UPDATE cart SET selected=1 WHERE productid = #{productid} and userid=#{userid}
+            </when>
+            <when test="flag == 0">
+                UPDATE cart SET selected=0 WHERE productid = #{productid} and userid=#{userid}
+            </when>
+            <otherwise>
+
+            </otherwise>
+        </choose>
+    </update>
+    <update id="updateQuantity">
+        UPDATE cart
+        SET number = #{quantity}
+        WHERE productid = #{productid} AND userid = #{userid}
+    </update>
+
+    <select id="getSelectedItemsByUserId" resultType="com.article.sys.bean.Cart">
+        SELECT *
+        FROM cart
+        WHERE userid = #{userid} AND selected = 1
+    </select>
+    <select id="getSelectedItemsWithProductDetails" resultType="java.util.HashMap">
+        SELECT
+            c.userid,
+            c.productid,
+            c.number,
+            c.addprice,
+            p.name AS productName,
+            p.defaultimg AS productImg
+        FROM cart c
+                 INNER JOIN product p ON c.productid = p.id
+        WHERE c.userid = #{userid} AND c.selected = 1 AND p.isdelete != 1
+    </select>
+    <delete id="deleteInCartByUserIdAndProductId">
+        DELETE FROM cart
+        WHERE userid = #{userid} AND productid = #{productid}
+    </delete>
+</mapper>

@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <base href="/">
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="layui/css/layui.css" />
+</head>
+<body>
+<div class="layui-card-body" id="addressInfoPanel">
+    <button class="layui-btn" id="addAddressBtn" style="margin-bottom: 10px;">新增地址</button>
+    <table class="layui-table" lay-filter="addressTable" id="addressTable"></table>
+</div>
+
+<script src="layui/layui.all.js"></script>
+<script type="text/html" id="addressBar">
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="delete">删除</a>
+</script>
+<script type="text/javascript" th:inline="none">
+    /* <![CDATA[ */
+    layui.use(['table', 'form', 'jquery'], function(){
+        var table = layui.table;
+        var form = layui.form;
+        var $ = layui.jquery;
+
+        // 地址表格加载
+        table.render({
+            elem: '#addressTable',
+            url: '/user/getAddresses',
+            page: false,
+            cols: [[
+                {field: 'province', title: '省份'},
+                {field: 'city', title: '城市'},
+                {field: 'area', title: '区县'},
+                {field: 'address', title: '详细地址'},
+                {field: 'name', title: '收货人'},
+                {field: 'tel', title: '电话'},
+                {field: 'isdefault', title: '默认', templet: function(d){
+                        return d.isdefault === 1 ? '是' : '否';
+                    }},
+                {title: '操作', toolbar: '#addressBar', width: 150}
+            ]]
+        });
+
+        // 新增地址
+        $('#addAddressBtn').click(function() {
+            $.get('/user/getAddresses', function(res) {
+                if (res.count >= 6) {
+                    layer.msg('地址数量已达上限（6个）');
+                    return;
+                }
+                openAddressForm(null);
+            });
+        });
+
+        // 地址操作
+        table.on('tool(addressTable)', function(obj){
+            var data = obj.data;
+            if (obj.event === 'edit') {
+                openAddressForm(data);
+            } else if (obj.event === 'delete') {
+                layer.confirm('确认删除此地址？', {
+                    btn: ['确定', '取消']
+                }, function() {
+                    $.post('/user/deleteAddress', {id: data.id}, function(res) {
+                        if (res === 1) {
+                            layer.msg('删除成功');
+                            table.reload('addressTable');
+                        } else {
+                            layer.msg('删除失败');
+                        }
+                    });
+                });
+            }
+        });
+
+        // 打开地址编辑表单
+        function openAddressForm(data) {
+            var isEdit = !!data;
+            layer.open({
+                type: 1,
+                title: isEdit ? '编辑地址' : '新增地址',
+                area: ['600px', '500px'],
+                content: '<form class="layui-form" style="padding: 20px;" id="addressForm">' +
+                    '<input type="hidden" name="id" value="'+(data ? data.id : '')+'">' +
+                    '<div class="layui-form-item">' +
+                    '<label class="layui-form-label">省市区</label>' +
+                    '<div class="layui-input-block">' +
+                    '<select name="province" lay-filter="province" lay-verify="required">' +
+                    '<option value="">请选择省</option>' +
+                    '</select>' +
+                    '<select name="city" lay-filter="city" lay-verify="required">' +
+                    '<option value="">请选择市</option>' +
+                    '</select>' +
+                    '<select name="area" lay-filter="area" lay-verify="required">' +
+                    '<option value="">请选择区</option>' +
+                    '</select>' +
+                    '</div>' +
+                    '</div>' +
+                    '<div class="layui-form-item">' +
+                    '<label class="layui-form-label">详细地址</label>' +
+                    '<div class="layui-input-block">' +
+                    '<input type="text" name="address" value="'+(data ? data.address : '')+'" lay-verify="required" class="layui-input">' +
+                    '</div>' +
+                    '</div>' +
+                    '<div class="layui-form-item">' +
+                    '<label class="layui-form-label">收货人</label>' +
+                    '<div class="layui-input-block">' +
+                    '<input type="text" name="name" value="'+(data ? data.name : '')+'" lay-verify="required" class="layui-input">' +
+                    '</div>' +
+                    '</div>' +
+                    '<div class="layui-form-item">' +
+                    '<label class="layui-form-label">电话</label>' +
+                    '<div class="layui-input-block">' +
+                    '<input type="text" name="tel" value="'+(data ? data.tel : '')+'" lay-verify="required|phone" class="layui-input">' +
+                    '</div>' +
+                    '</div>' +
+                    '<div class="layui-form-item">' +
+                    '<label class="layui-form-label">默认地址</label>' +
+                    '<div class="layui-input-block">' +
+                    '<input type="checkbox" name="isdefault" lay-skin="switch" '+(data && data.isdefault===1?'checked':'')+'>' +
+                    '</div>' +
+                    '</div>' +
+                    '<div class="layui-form-item">' +
+                    '<div class="layui-input-block">' +
+                    '<button class="layui-btn" lay-submit lay-filter="saveAddress">保存</button>' +
+                    '</div>' +
+                    '</div>' +
+                    '</form>',
+                success: function(layero, index){
+                    loadProvinces(data);
+                    form.on('select(province)', function(selectData){
+                        loadCities(selectData.value);
+                    });
+                    form.on('select(city)', function(selectData){
+                        loadAreas(selectData.value);
+                    });
+                    form.on('submit(saveAddress)', function(formData){
+                        var provinceName = $('select[name="province"]').find('option:selected').data('name') || '';
+                        var cityName = $('select[name="city"]').find('option:selected').data('name') || '';
+                        var areaName = $('select[name="area"]').find('option:selected').data('name') || '';
+                        var requestData = {
+                            id: formData.field.id,
+                            province: provinceName,
+                            city: cityName,
+                            area: areaName,
+                            provinceId: formData.field.province,
+                            cityId: formData.field.city,
+                            areaId: formData.field.area,
+                            address: formData.field.address,
+                            name: formData.field.name,
+                            tel: formData.field.tel,
+                            isdefault: formData.field.isdefault === 'on' ? 1 : 0
+                        };
+                        var url = requestData.id ? '/user/updateAddress' : '/user/addAddress';
+                        $.ajax({
+                            url: url,
+                            type: 'POST',
+                            contentType: 'application/json',
+                            data: JSON.stringify(requestData),
+                            success: function(res) {
+                                if (res === 1) {
+                                    layer.msg(requestData.id ? '地址更新成功' : '地址添加成功');
+                                    layer.closeAll();
+                                    table.reload('addressTable');
+                                } else if (res === -2) {
+                                    layer.msg('地址数量已达上限（6个）');
+                                } else {
+                                    layer.msg(requestData.id ? '更新失败' : '添加失败');
+                                }
+                            }
+                        });
+                        return false;
+                    });
+                    form.render();
+                }
+            });
+        }
+
+        function loadProvinces(data) {
+            $.get('/region/getProvinces', function(provinces) {
+                var html = '<option value="">请选择省</option>';
+                provinces.forEach(function(province) {
+                    html += '<option value="'+province.id+'" data-name="'+province.name+'" '+ (data && data.province === province.name ? 'selected' : '')+'>'+ province.name+'</option>';
+                });
+                $('select[name="province"]').html(html);
+                form.render('select');
+                if (data && data.province) {
+                    loadCities($('select[name="province"]').find('option:selected').val(), data);
+                }
+            });
+        }
+
+        function loadCities(provinceId, data) {
+            if (!provinceId) return;
+            $.get('/region/getChildrenByParentId?parentId=' + provinceId, function(cities) {
+                var html = '<option value="">请选择市</option>';
+                cities.forEach(function(city) {
+                    html += '<option value="'+city.id+'" data-name="'+city.name+'" '+ (data && data.city === city.name ? 'selected' : '')+'>'+ city.name+'</option>';
+                });
+                $('select[name="city"]').html(html);
+                form.render('select');
+                if (data && data.city) {
+                    loadAreas($('select[name="city"]').find('option:selected').val(), data);
+                }
+            });
+        }
+
+        function loadAreas(cityId, data) {
+            if (!cityId) return;
+            $.get('/region/getChildrenByParentId?parentId=' + cityId, function(areas) {
+                var html = '<option value="">请选择区</option>';
+                areas.forEach(function(area) {
+                    html += '<option value="'+area.id+'" data-name="'+area.name+'" '+ (data && data.area === area.name ? 'selected' : '')+'>'+ area.name+'</option>';
+                });
+                $('select[name="area"]').html(html);
+                form.render('select');
+            });
+        }
+    });
+    /* ]]> */
+</script>
+</body>
+</html>

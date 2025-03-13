@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <base href="/">
+    <meta charset="UTF-8">
+    <title>类别管理</title>
+    <link rel="stylesheet" href="layui/css/layui.css">
+    <style>
+        .layui-table tr {
+            height: 52px; /* 设置行高为50px */
+        }
+        .layui-table-cell{
+            height:52px;
+        }
+    </style>
+</head>
+<body>
+<!--数据列表-->
+<table class="layui-table" lay-data="{url:'category/list', page:true, id:'datalist',toolbar:'#toptools'}" lay-filter="datalist">
+    <thead>
+    <tr>
+        <th lay-data="{field:'id',}">ID</th>
+        <th lay-data="{field:'name'}">名称</th>
+        <th lay-data="{templet:'#imgTpl'}">图片</th>
+        <th lay-data="{templet:'#parentTpl'}">父级分类</th>
+        <th lay-data="{toolbar:'#linetools'}">操作</th>
+    </tr>
+    </thead>
+</table>
+<!--图片列自定义模板-->
+<script type="text/html" id="imgTpl">
+    <!--src属性中就要写上当前行的imgurl属性-->
+    <img src="{{d.imgurl}}" style="height:50px;">
+</script>
+
+<!--父级分类自定义模板-->
+<script type="text/html" id="parentTpl">
+    {{# if(d.pid==-1){ }}
+    <span style="color:red;">顶级</span>
+    {{# }else{ }}
+    <span style="">{{ d.parent.name }}</span>
+    {{# } }}
+</script>
+<!--新增数据表单-->
+<div style="display:none" id="addWin" lay-filter="addWin" class="layui-form">
+    <div class="layui-form-item">
+        <label class="layui-form-label">父级分类</label>
+        <div class="layui-input-inline">
+            <select name="pid">
+                <option value="-1">无父级分类</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">名称</label>
+        <div class="layui-input-inline">
+            <input type="text" name="name" required lay-verify="required" placeholder="请输入分类名称" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">图片</label>
+        <div class="layui-input-inline">
+            <img src="easyfile/upload.jpeg" _id="addupload" style="width:100px;height:100px;cursor: pointer">
+            <input type="hidden" _id="addimgurl" name="imgurl"  lay-verify="easyimg">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <button type="button"  lay-submit lay-filter="addsave" class="layui-btn" id="addsave">保存</button>
+        <button type="button"  class="layui-btn" id="addcancel">取消</button>
+    </div>
+</div>
+<!--修改对话框-->
+<div style="display:none" id="editWin" lay-filter="editWin" class="layui-form">
+    <input name="id" type="hidden">
+    <div class="layui-form-item">
+        <label class="layui-form-label">父级分类</label>
+        <div class="layui-input-inline">
+            <select name="pid">
+                <option value="-1">无父级分类</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">名称</label>
+        <div class="layui-input-inline">
+            <input type="text" name="name" required lay-verify="required" placeholder="请输入分类名称" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">图片</label>
+        <div class="layui-input-inline">
+            <img src="easyfile/upload.jpeg" _id="addupload" style="width:100px;height:100px;cursor: pointer">
+            <input type="hidden" _id="addimgurl" name="imgurl"  lay-verify="easyimg">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <button type="button"  lay-submit lay-filter="editsave" class="layui-btn" >保存</button>
+        <button type="button"  class="layui-btn" id="editcancel">取消</button>
+    </div>
+</div>
+<!--行内工具栏-->
+<script id="linetools" type="text/html">
+    <button type="button"  class="layui-btn" lay-event="edit">编辑</button>
+    <button type="button"  class="layui-btn" lay-event="delete">删除</button>
+</script>
+<!--头部工具栏-->
+<script id="toptools" type="text/html">
+    <div class="layui-form-item">
+        <div class="layui-input-inline">
+            <input type="text" name="text"  placeholder="请输入查询内容" autocomplete="off" class="layui-input">
+        </div>
+        <div class="layui-input-inline">
+            <button type="button"  class="layui-btn" lay-event="check">查询</button>
+            <button type="button"  class="layui-btn" lay-event="add">新增</button>
+        </div>
+    </div>
+</script>
+<script src="layui/layui.all.js"></script>
+<script>
+    const $=layui.$;
+    const table=layui.table;
+    const form=layui.form;
+    const layer=layui.layer;
+    const upload=layui.upload;
+    /*行内按钮监听事件*/
+    table.on("tool(datalist)",function(obj){
+        //被点击按钮的lay-event属性值
+        let event=obj.event;
+        //被点击按钮所在行的数据
+        let data=obj.data;
+        if(event=='delete'){
+            //防止误操作
+            layer.confirm("确认要删除吗?",function(){
+                //点击确认后要执行的代码
+                $.ajax({
+                    url:'category/delete',
+                    data:{id : data.id},
+                    success:function(){
+                        //提示信息
+                        layer.msg("删除成功",{time:1800,icon:1});
+                        //刷新表格数据
+                        table.reload("datalist");
+                    }
+                })
+            })
+        }else if(event=='edit'){
+            getChildren();
+            //回显表单数据
+            form.val("editWin",data);
+            //回显图片
+            $("[_id='addupload']").attr("src",data.imgurl);
+            layer.open({
+                type:1,
+                title:'编辑分类',
+                area:['400px','400px'],
+                content:$("#editWin")
+            });
+        }
+    });
+    //查询出所有的一级分类,将一级分类的信息添加在下拉框中
+    function getChildren(){
+        $.ajax({
+            url:"category/getchildren",
+            data:{id:-1},
+            async:false,
+            success:function(result){
+                console.log(result);
+                $("[name='pid']").empty();
+                $("[name='pid']").append("<option value='-1'>无父级分类</option>");
+                for(let i=0;i<result.length;i++){
+                    $("[name='pid']").append("<option value='"+result[i].id+"'>"+result[i].name+"</option>")
+                }
+                form.render('select');
+            }
+        });
+    }
+    /*头部按钮监听事件*/
+    table.on("toolbar(datalist)",function(obj){
+        let event=obj.event;
+        if(event=='add'){
+            getChildren();
+            $("[_id='addupload']").attr("src","easyfile/upload.jpeg");
+            layer.open({
+                type:1,
+                title:'新增分类',
+                area:['400px','400px'],
+                content:$("#addWin")
+            });
+
+        }else if(event=='check'){
+            //获取输入框中的数据
+            let text=$("[name='text']").val();
+            //发送到后端  layui表格加载
+            table.reload("datalist",{where:{'text':text}});
+
+            $("[name='text']").val(text);
+
+        }
+    });
+
+    //文件上传
+    upload.render({
+        elem:"[_id='addupload']",
+        url:"file/upload",
+        done:function(result){
+            //result.data[0].src
+            let url=result.data[0].src;
+            $("[_id='addupload']").attr("src",url);
+            $("[_id='addimgurl']").val(url);
+        },
+        error:function(){
+            layer.msg("上传失败",{icon:2});
+        }
+    });
+
+    //  新增保存提交按钮事件
+    form.on("submit(addsave)",function(data){
+        console.log("--表单提交,并验证通过--");
+        console.log(data);
+        //发送ajax提交数据
+        $.ajax({
+            url:'category/add',
+            data:data.field,
+            success:function(result){
+                //关闭掉本窗口
+                layer.closeAll();
+                //提示成功
+                layer.msg("添加成功",{icon:1,time:1800});
+                //刷新表格
+                table.reload("datalist");
+            }
+        });
+        return false;//禁止表单提交
+    });
+
+    form.on("submit(editsave)",function(data){
+        //data.field  表单数据
+        $.ajax({
+            url:'category/edit',
+            data:data.field,
+            success:function(){
+                //关闭掉本窗口
+                layer.closeAll();
+                //提示成功
+                layer.msg("添加成功",{icon:1,time:1800});
+                //刷新表格
+                table.reload("datalist");
+            }
+        });
+        return false;
+    })
+
+    /*自定义表单验证规范*/
+    form.verify({
+        easyimg:function(value,item){
+            //value   表单组件中填入的值
+            //item    对应的表单组件
+            if(!value){
+                return "必须上传图片";
+            }
+        }
+    });
+</script>
+</body>
+</html>

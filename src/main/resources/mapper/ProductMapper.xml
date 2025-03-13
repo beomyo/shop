@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.article.sys.dao.ProductDao">
+
+    <insert id="add">
+        insert into product (name, price, oldprice, number,info, categoryid, defaultimg,state)
+        value (#{product.name},#{product.price},#{product.oldprice},#{product.info},#{product.number},#{product.categoryid},#{product.defaultimg},#{product.state})
+    </insert>
+
+<!--    逻辑删除-->
+    <update id="delete">
+        update product set isdelete =1 where id=#{id}
+    </update>
+
+    <update id="edit">
+        update product set name=#{product.name},
+                           price=#{product.price},
+                           number=#{product.number},
+                           info=#{product.info},
+                           categoryid=#{product.categoryid},
+                           defaultimg=#{product.defaultimg}
+        where id=#{product.id}
+    </update>
+
+    <resultMap id="productMap" type="com.article.sys.bean.Product">
+        <result property="categoryid" column="categoryid"/>
+        <association property="category" column="categoryid" select="getCategory" />
+    </resultMap>
+
+    <select id="getByID" resultMap="productMap">
+        select name, price, oldprice, info, categoryid, defaultimg,state,isdelete
+        from product where id=#{id} and isdelete!=1
+    </select>
+
+    <select id="getProducts" resultMap="productMap">
+        select id, name, price, oldprice, info, categoryid, defaultimg,state,isdelete
+        from product where isdelete!=1 and state!=1 order by RAND() limit #{count}
+    </select>
+
+
+    <select id="getCategory" resultType="com.article.sys.bean.Category">
+        select id,name,imgurl,pid,isdel,updatetime,inserttime
+        from category where id=#{categoryid} and isdel!=1
+    </select>
+
+
+
+    <select id="getList" resultMap="productMap">
+        select *
+        from product
+        <where>
+            <if test="text!=null">
+            <bind name="liketext" value="'%'+text+'%'"/>
+                name like #{liketext}
+            </if>
+            and isdelete!=1
+        </where>
+        <if test="page.limit!=0">
+            limit #{page.start},#{page.limit}
+        </if>
+    </select>
+
+    <select id="getCount" resultType="int">
+        select COUNT(*)
+        from product
+        <where>
+            <if test="text!=null">
+                <bind name="liketext" value="'%'+text+'%'"/>
+                name like #{liketext}
+            </if>
+        and isdelete!=1
+        </where>
+    </select>
+
+
+    <select id="getTrendingProducts" resultMap="productMap">
+        SELECT *
+        FROM product
+        WHERE isdelete != 1 AND state = 0
+        ORDER BY RAND()
+        LIMIT #{page.start}, #{page.limit}
+    </select>
+
+    <select id="getTrendingCount" resultType="int">
+        SELECT COUNT(*)
+        FROM product
+        WHERE isdelete != 1 AND state = 0
+    </select>
+    <select id="getProductsByCategory" resultMap="productMap">
+        SELECT *
+        FROM product
+        WHERE categoryid = #{categoryid} AND isdelete != 1
+        ORDER BY rand()
+        LIMIT #{page.start}, #{page.limit}
+    </select>
+
+    <select id="getProductCountByCategory" resultType="int">
+        SELECT COUNT(*)
+        FROM product
+        WHERE categoryid = #{categoryid} AND isdelete != 1
+    </select>
+</mapper>
