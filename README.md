@@ -1,4 +1,4 @@
-登录
+项目部分页面截图
 ![图片文字描述](https://github.com/beomyo/shop/blob/main/src/2025-03-13_11-14-13.jpg)
 ![图片文字描述](https://github.com/beomyo/shop/blob/main/src/2025-03-13_11-14-37.jpg)
 ![图片文字描述](https://github.com/beomyo/shop/blob/main/src/2025-03-13_11-14-43.jpg)
