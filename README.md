@@ -1,11 +1,20 @@
-项目部分页面截图
+# 项目部分页面截图
+登录注册
 ![图片文字描述](https://github.com/beomyo/shop/blob/main/src/2025-03-13_11-14-13.jpg)
+首页、商品列表
 ![图片文字描述](https://github.com/beomyo/shop/blob/main/src/2025-03-13_11-14-37.jpg)
+二级菜单
 ![图片文字描述](https://github.com/beomyo/shop/blob/main/src/2025-03-13_11-14-43.jpg)
+商品分类页面
 ![图片文字描述](https://github.com/beomyo/shop/blob/main/src/2025-03-13_11-14-57.jpg)
+购物车
 ![图片文字描述](https://github.com/beomyo/shop/blob/main/src/2025-03-13_11-15-28.jpg)
+提交订单
 ![图片文字描述](https://github.com/beomyo/shop/blob/main/src/2025-03-13_11-15-35.jpg)
+扫码支付
 ![图片文字描述](https://github.com/beomyo/shop/blob/main/src/2025-03-13_11-15-42.jpg)
+用户信息管理、订单管理
 ![图片文字描述](https://github.com/beomyo/shop/blob/main/src/2025-03-13_11-15-54.jpg)
+管理员后台、分类管理、商品管理、订单管理
 ![图片文字描述](https://github.com/beomyo/shop/blob/main/src/2025-03-13_11-16-15.jpg)
 ![图片文字描述](https://github.com/beomyo/shop/blob/main/src/2025-03-13_11-16-18.jpg)
